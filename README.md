@@ -1,5 +1,5 @@
-SampleMNUs
-==========
+SampleMenus
+===========
 
 Sample .MNU Files (grub4dos) for the Easy2Boot Project
 
