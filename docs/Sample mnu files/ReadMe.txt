@@ -12,6 +12,5 @@ Look at the instuctions in the .mnu file for help.
 %MFOLDER% will always be set to the \_ISO\xxx folder - e.g. \_ISO\MAINMENU
 $HOME$ will always be set to the folder path of the .mnu file - e.g. \_ISO\MAINMENU\MNU
 
-Note: Files with extensions such as .ISO, .IMG, .IMA, .BIN, .GZ may not need a .mnu file - so just copy the ISO file to either the
-_ISO\MAINMENU folder or _ISO\AUTO folder.
+Note: Files with extensions such as .ISO, .IMG, .IMA, .BIN, .GZ may not need a .mnu file - so just copy the ISO file to either the _ISO\MAINMENU folder or _ISO\AUTO folder.
 
