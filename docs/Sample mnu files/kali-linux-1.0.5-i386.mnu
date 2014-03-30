@@ -1,0 +1,44 @@
+# Place ISO in \_ISO\MAINMENU\MNU or \_ISO\LINUX\MNU (and this .mnu file too)
+# DOES NOT WORK UNDER NORMAL VM!!!
+# IMPORTANT: you MUST run WinContig (Ctrl+F2) before booting E2B.
+
+# For persistence: (File Name=kali86-rw  Volume Name=persistence)
+# 1. click 'Create ext2 fs' in RMPrepUSB
+# 2. Set the FILENAME to kali86-rw
+# 3. Set the VOLUME LABEL to persistence  <------ VERY IMPORTANT
+# 4. Set amount of space you would like allowed to persist
+
+#The persistent 'volume' needs the persistence.conf file in it!
+# Boot to kali and then type following 5 lines to enable persistence - then reboot
+#    mkdir /mnt/usb
+#    ls /dev/                           (to see which is the USB device - normally sdb)
+#    mount /dev/sdb3 /mnt/usb
+#    echo "/ union" >> /mnt/usb/persistence.conf
+#    umount /mnt/usb
+
+
+iftitle [if exist $HOME$/kali-linux-1.0.5-i386.iso] Kali 1.0.5 x86 Persistent\n kali-linux-1.0.5-i386.iso using /kali86-rw persistence file
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+if exist CD echo WARNING: Cannot use partnew command! && pause && configfile (bd)/menu.lst
+set ISO=kali-linux-1.0.5-i386.iso
+#enable parttype output
+partnew (%E2BDEV%,3) 0x0 $HOME$/%ISO%
+# make empty table entry in 3rd position in ptn table
+debug 1
+parttype (%E2BDEV%,2) | set check=
+debug off
+set check=%check:~-5,4%
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0 0 0
+if not "%check%"=="0x00" echo WARNING: PTN TABLE 3 IS ALREADY IN USE! && pause
+debug 1
+if not exist /kali86-rw echo WARNING: /kali86-rw persistence file not found! && pause
+errorcheck off
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0x0 /kali86-rw
+errorcheck on
+map $HOME$/%ISO% (0xff)
+map --hook
+root (0xff)
+# use next line if want username and pwd prompt
+# kernel /live/vmlinuz boot=live config live-config.username=root persistence
+kernel /live/vmlinuz boot=live noconfig=sudo username=root hostname=kali persistence
+initrd /live/initrd.img

@@ -1,0 +1,210 @@
+splashimage=/F4UBCD/Images/bg.xpm.gz
+foreground=FFFFFF
+background=000000
+
+default     4
+
+title Boot First Hard Drive (hd0)\n\nGets you out of here.
+rootnoverify (hd0)
+chainloader (hd0)+1
+
+title Remap & Boot First HDD\n\nIf you booted from USB (e.g. Kon-Boot), this should boot your HDD.
+map (hd1) (hd0)
+map --hook
+rootnoverify (hd0)
+chainloader (hd0)+1
+
+title Kick-start NTLDR\n\nIn case yours is missing.
+kernel /F4UBCD/Images/memdisk
+initrd /F4UBCD/Images/NTLDR.GZ
+
+title
+root
+
+iftitle [if not exist /BOOT/XP.wim] MiniXP NOT AVAILABLE (no \\BOOT\\XP.wim)
+root
+
+iftitle [if not exist /BOOT/XP.wim] MiniXP with UniATA drive NOT AVAILABLE (no \\BOOT\\XP.wim)
+root
+
+iftitle [if exist /BOOT/XP.wim] MiniXP Environment\n\nLaunch MiniXP and experience bliss.\nIncludes some DaRT 5.0 tools for XP with improved hardware support.
+chainloader /HBCD/XPLOADER.BIN
+
+iftitle [if exist /BOOT/XP.wim] MiniXP with UniATA driver\n\nGive this a try if MiniXP fails to detect your drives.\nBlue-screens on many systems, though. :(
+map --mem /F4UBCD/Images/MiniXP-UniATA.img (fd0)
+map --floppies=1
+map --hook
+chainloader /HBCD/XPLOADER.BIN
+
+title Hiren's DOS Tools 13.0\n\nDOS-based hardware & BIOS tools
+map --mem /F4UBCD/Images/hbdos13.gz (fd0)
+map --floppies=1
+map --hook
+chainloader (fd0)+1
+rootnoverify (fd0)
+boot
+
+title Hiren's DOS Tools 13.0 (Memdisk Loader)\n\nUsing Memdisk, in case of boot or file access/memory issues.
+kernel /F4UBCD/Images/memdisk
+initrd /F4UBCD/Images/hbdos13.gz
+
+iftitle [if exist /BOOT/dart.lst && if exist /BOOT/dart.wim] MS DaRT 6.5 for 32 & 64-bit Vista & 7\n\nMicrosoft Diagnostics and Recovery Toolset 6.5 for Windows 7 and Vista 32/64-bit
+configfile /BOOT/dart.lst
+
+iftitle [if not exist /BOOT/dart.wim] MS DaRT 6.5 NOT AVAILABLE (no \\BOOT\\dart.wim)
+root
+
+title
+root
+
+title EASEUS Partition Master 6.5.1 Server Edition\n\nCreate, edit, move, resize, delete partitions.
+kernel /F4UBCD/Images/easeus root=/dev/ram0 rw easeus_mode=1
+initrd /F4UBCD/Images/easeus.gz
+
+title Kon-Boot v1.1 (32/64-bit)\n\nLog into Windows with blank password; bypass login without breaking it
+map --mem /F4UBCD/Images/konboot.img (fd0)
+map (hd1) (hd0)
+map --floppies=1
+map --hook
+chainloader (fd0)+1
+rootnoverify (fd0)
+boot
+
+title Offline NT/2000/XP/Vista/7 Password Changer\n\nWindows Password Reset
+kernel /F4UBCD/Images/ntpasswd-vmlinuz vga=1
+initrd /F4UBCD/Images/ntpasswd-initrd.cgz /F4UBCD/Images/ntpasswd-scsi.cgz
+
+title Seagate DiscWizard (Acronis TrueImage - ALT + T-O-K to bypass error)\n\nSave partition to image, copy partition, restore from image.\nWorks with non-Seagate drive, hold Alt and type T-O-K to bypass error.
+kernel /F4UBCD/Images/SEAGATDW vga=788 ramdisk_size=32768 acpi=off quiet noapic mbrcrcs on
+initrd /F4UBCD/Images/SEAGATDW.GZ
+
+title Memtest86 v4.1 (Jan-2013)\n\nTest basic system functionality by stress-testing RAM, FSB, and CPU
+kernel /F4UBCD/Images/memtest41.gz
+
+title FreeDOS / Dell System Restore MBR Repair\n\nHelps you restore a Dell MBR (blue "www.dell.com") and access restore\npartition w/ Ctrl+F11. Also great to run a BIOS update via a USB HDD.
+kernel /F4UBCD/Images/memdisk
+initrd /F4UBCD/Images/dell.gz
+
+title DR-Dos Mini with File Copy\n\nLoads virtual floppy in fd1 (B:), locates and copies /temp/files.rar and boots.\nIf files.rar cannot be found, DD will fail. See alternates for plain DR-DOS.
+map --mem /F4UBCD/Images/drdosmin.gz (fd0)
+map --mem /F4UBCD/Images/blankvfd.gz (fd1)
+map --floppies=2
+map --hook
+find --set-root /temp/files.rar
+dd if=()/temp/files.rar of=(fd1)/FILES.RAR
+chainloader (fd0)+1
+rootnoverify (fd0)
+boot
+
+title
+root
+title
+root
+title
+root
+title Problems with the above tools?
+root
+title [ DOWN for alternates ]...
+root
+
+# --------------------------------------------------------------------------
+#          SECOND PAGE (Keep same number of entries above this line)
+# --------------------------------------------------------------------------
+
+title [ UP for main ]...
+root
+title
+root
+
+title
+root
+
+title Custom Image\n\nLoads memdisk image from \\temp\\custom.img (Another great USB tool)
+kernel /F4UBCD/Images/memdisk
+find --set-root /temp/custom.img
+initrd /temp/custom.img
+
+title Custom Image (Grub4DOS Loader)\n\nUsing Grub4DOS mapping, in case of boot or file access/memory issues.
+find --set-root /temp/custom.img
+map --mem /temp/custom.img (fd0)
+map --floppies=1
+map --hook
+chainloader (fd0)+1
+rootnoverify (fd0)
+boot
+
+
+title Memtest86 v4.0b\n\nPrevious version of Memtest86 if newest fails
+kernel /F4UBCD/Images/memtest40.gz
+
+title Memtest86 v3.5b\n\nPrevious version of Memtest86 if all else fails
+kernel /F4UBCD/Images/memtest35.gz
+
+title Memtest86 v4.1 (Boot trace)\n\nPrevious version of Memtest86 if newest fails
+kernel /F4UBCD/Images/memtest41.gz btrace
+
+title FreeDOS / Dell MBR Repair (Grub4DOS loader)\n\nUsing Grub4DOS mapping, in case of boot or file access/memory issues.
+map --mem /F4UBCD/Images/dell.gz (fd0)
+map --floppies=1
+map --hook
+chainloader (fd0)+1
+rootnoverify (fd0)
+boot
+
+title DR-Dos Mini (Memdisk Loader)\n\nUsing memdisk mapping, in case of boot or file access/memory issues.
+kernel /F4UBCD/Images/memdisk
+initrd /F4UBCD/Images/drdosmin.gz
+
+title DR-Dos Mini (without File Copy)\n\nUsing Grub4DOS mapping. Plain DR-DOS for BIOS flashing, no drivers or loaders.
+map --mem /F4UBCD/Images/drdosmin.gz (fd0)
+map --floppies=1
+map --hook
+chainloader (fd0)+1
+rootnoverify (fd0)
+boot
+
+title
+root
+
+title Hiren's DOS Tools 13.0 (File Copy)\n\nLoads virtual floppy in fd1 (B:), locates and copies /temp/files.rar and boots.\nIf files.rar cannot be found, DD will fail.
+find --set-root /F4UBCD/Images/hbdos13.gz
+map --mem /F4UBCD/Images/hbdos13.gz (fd0)
+map --mem /F4UBCD/Images/blankvfd.gz (fd1)
+map --floppies=2
+map --hook
+find --set-root /temp/files.rar
+dd if=()/temp/files.rar of=(fd1)/FILES.RAR
+chainloader (fd0)+1
+rootnoverify (fd0)
+boot
+
+title FreeDOS / Dell MBR Repair (File Copy)\n\nLoads virtual floppy in fd1 (B:), locates and copies /temp/files.rar and boots.\nIf files.rar cannot be found, DD will fail.
+find --set-root /F4UBCD/Images/dell.gz
+map --mem /F4UBCD/Images/dell.gz (fd0)
+map --mem /F4UBCD/Images/blankvfd.gz (fd1)
+map --floppies=2
+map --hook
+pause If the following line fails, try lowercasing the filename by hitting E on the   menu. [Press any key to continue...]
+find --set-root /temp/files.rar
+dd if=()/temp/files.rar of=(fd1)/FILES.RAR
+chainloader (fd0)+1
+rootnoverify (fd0)
+boot
+
+title MiniXP with F6 Virtual Floppy (\\temp\\f6flpy.img)\n\nNo floppy drive? Load SATA/RAID drivers via \\temp\\f6flpy.img on CD or USB.\nBIOS must support USB HDD. Remember to hit F6 when prompted!
+pause If the following line fails, try lowercasing the filename by hitting E on the   menu. [Press any key to continue...]
+find --set-root /temp/f6flpy.img
+map --mem /temp/f6flpy.img (fd0)
+map --floppies=1
+map --hook
+find --set-root /HBCD/XPLOADER.BIN
+chainloader /HBCD/XPLOADER.BIN
+
+title Load XP CD with F6 Virtual Floppy (\\temp\\f6flpy.img)\n\nInsert your XP install CD and load image from \\temp\\f6flpy.img on USB drive.\nBIOS must support USB HDD. Remember to hit F6 when prompted!
+find --set-root /temp/f6flpy.img
+map --mem /temp/f6flpy.img (fd0)
+map --floppies=1
+map --hook
+pause If the following line fails, try lowercasing the filename by hitting E on the   menu. [Press any key to continue...]
+find --set-root /I386/SETUPLDR.BIN
+chainloader /I386/SETUPLDR.BIN

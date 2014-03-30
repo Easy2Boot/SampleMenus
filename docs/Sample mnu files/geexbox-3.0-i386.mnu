@@ -1,0 +1,34 @@
+# For persistence, create an ext2 file called casper-rw in the root of the boot drive using RMPrepUSB Create ext2 FS button
+# Then rename the file to geexbox-rw  (do NOT create a file called geexbox-rw - you MUST create a file called casper-rw first and then rename it!)
+# (i.e. File Name=geexbox-rw  Volume Name=casper-rw)
+# Place ISO in \_ISO\Mainmenu\MNU or \_ISO\Linux\MNU (and this .mnu file too)
+# Extract the file rootfs from the ISO using 7Zip and copy it to the root of the USB drive
+# DOES NOT WORK UNDER NORMAL VM  (you can use VBox + DavidB's USB VM Starter app)!!!
+# If it complains about broken repositories, do not disable them.
+# IMPORTANT: you MUST run WinContig (Ctrl+F2) before booting E2B.
+
+
+
+iftitle [if exist $HOME$/GeexBox-3.0-i386.iso] GeexBox \n GeexBox using /geexbox as a persistence file
+if exist CD echo WARNING: Cannot use partnew command! && pause && configfile (bd)/menu.lst
+set ISO=GeexBox-3.0-i386.iso
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+#enable parttype output
+partnew (%E2BDEV%,3) 0x0 $HOME$/%ISO%
+# make empty table entry in 3rd position in ptn table
+debug 1
+parttype (%E2BDEV%,2) | set check=
+debug off
+set check=%check:~-5,4%
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0 0 0
+if not "%check%"=="0x00" echo WARNING: PTN TABLE 3 IS ALREADY IN USE! && pause
+debug 1
+if not exist /geexbox-rw echo WARNING: /geexbox-rw persistence file not found! && pause
+errorcheck off
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0x0 /geexbox-rw
+errorcheck on
+map $HOME$/%ISO% (0xff)
+map --hook
+root (0xff)
+kernel /vmlinuz root=/dev/ram0 ro vga=789 persistent
+initrd /initrd

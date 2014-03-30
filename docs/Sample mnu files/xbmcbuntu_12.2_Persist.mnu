@@ -1,0 +1,29 @@
+# For persistence - create an ext2 file using RMPrepUSb called casper-rw (volume label=casper-rw)
+# create \xbmcbuntu folder and move the ext2 file to \xbmcbuntu folder
+# IMPORTANT: you MUST run WinContig (Ctrl+F2) before booting E2B.
+
+
+iftitle [if exist $HOME$/xbmcbuntu-12.2.Intel-NVIDIA.iso] xbmcbuntu-12.2.Intel-NVIDIA.iso \n Requires partition 3&4 to be empty
+debug normal
+# set the path and filename on this next line
+set ISO=$HOME$/xbmcbuntu-12.2.Intel-NVIDIA.iso
+set PFILE=/xbmcbuntu/casper-rw
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+# check table entry in 3rd position in ptn table for persistent file
+parttype (%E2BDEV%,2) | set check=
+set check=%check:~-5,4%
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0 0 0
+if exist %PFILE% if not "%check%"=="0x00" echo ERROR: PTN TABLE ENTRY 3 IS ALREADY IN USE! && pause && set MFOLDER=/_ISO/MAINMENU && configfile (md)0xA000+0x50
+if exist %PFILE% partnew (%E2BDEV%,2) 0x0 %PFILE% > nul
+set PER=nopersistent
+if exist %PFILE% set PER=live-media-path=/casper  persistent 
+if exist %PFILE% echo Using %PFILE% as persistent file...
+# map the iso file to a partition
+partnew (%E2BDEV%,3) 0x00 %ISO% > nul
+map %ISO% (0xff) > nul
+pause --wait=3
+map --hook > nul
+root (0xff) > nul
+kernel /casper/vmlinuz  boot=casper %PER%  quiet splash --  
+initrd /casper/initrd.lz
+

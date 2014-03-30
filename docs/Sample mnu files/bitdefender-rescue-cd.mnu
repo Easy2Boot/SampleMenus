@@ -1,0 +1,34 @@
+# Make a \casper-rw ext2 file using RMPrepUSB in the root of the drive (MUST be made as casper-rw)
+# Rename the file to \bitdefender-rw  (i.e. File Name=bitdefender-rw Volume Name=casper-rw)
+# Place this .mnu file and the ISO in either \_ISO\MainMenu\MNU or \_ISO\Linux\MNU or \_ISO\ANTIVIRUS\MNU
+# This menu will work even on an NTFS USB boot drive
+# IMPORTANT: you MUST run WinContig (Ctrl+F2) before booting E2B.
+
+
+iftitle [if exist $HOME$/bitdefender-rescue-cd.iso] BitDefender Rescue CD with persistence\n Set Desktop, Applications - Settings - Session and Startup - General - Automatically save session on logout to save AV updates.
+if exist CD echo WARNING: Cannot use partnew command! && pause && configfile (bd)/menu.lst
+# comment out the next line if you don't want it to ask the question
+set /p ask=Do you want manually set the VGA Mode (Y/N) ? 
+if /i "%ask%"=="Y" set ask=vga=ask || set ask=
+echo
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+#enable parttype output
+debug 1
+# make empty table entry in 3rd position in ptn table
+parttype (%E2BDEV%,2) | set check=
+debug off
+set check=%check:~-5,4%
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0 0 0
+if not "%check%"=="0x00" echo WARNING: PTN TABLE 3 IS ALREADY IN USE - PERSISTENCE MAY NOT WORK! && pause
+debug 1
+if not exist /bitdefender-rw echo WARNING: \bitdefender-rw persistence file not found! && pause
+errorcheck off
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0x0 /bitdefender-rw
+errorcheck on
+#map ptn 4 to ISO
+partnew (%E2BDEV%,3) 0x0 $HOME$/bitdefender-rescue-cd.iso
+map $HOME$/bitdefender-rescue-cd.iso (0xff)
+map --hook
+root (0xff)
+kernel /casper/vmlinuz boot=casper persistent noprompt iso-scan/filename=$HOME$/bitdefender-rescue-cd.iso %ask% splash
+initrd /casper/initrd.gz 

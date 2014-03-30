@@ -1,0 +1,76 @@
+# This is mainly for USB Flash drives - Partition 1 = E2B, Partition 2 = For user files
+# Only Partition 1 is visible to Windows - this menu will swap over Ptn 1 <> Ptn 2
+
+iftitle [if exist (hd0,0)/_ISO/e2b/grub/e2b.cfg] Hide E2B Partition \n Set E2B partition as #2 and hide from Windows. \n Note: Windows Vista/7/8 Installs will not work!
+debug off
+# first get MBR into two areas of memory
+dd if=(hd0) of=(md)0x3000+1 count=1
+dd if=(hd0) of=(md)0x3100+1 count=1
+
+#check we have two ptns
+set /A n=*0x6001d2 & 0xFF
+if "%n%"=="0x0" pause --wait=3 ERROR: Partition #2 is empty! && configfile /_ISO/e2b/grub/menu.lst
+
+#Now overwrite 2nd copy with tables from 1st copy but change the order...
+set /A m=*0x6001be
+write     0x6201ce %m%
+set /A m=*0x6001c2
+write     0x6201d2 %m%
+set /A m=*0x6001c6
+write     0x6201d6 %m%
+set /A m=*0x6001ca
+write     0x6201da %m%
+ 
+set /A m=*0x6001ce
+write     0x6201be %m%
+set /A m=*0x6001d2
+write     0x6201c2 %m%
+set /A m=*0x6001d6
+write     0x6201c6 %m%
+set /A m=*0x6001da
+write     0x6201ca %m%
+
+dd if=(md)0x3100+1 of=(hd0) count=1 
+
+find --set-root /_ISO/e2b/grub/menu.lst
+clear 
+configfile  /_ISO/e2b/grub/menu.lst
+
+# -------------
+
+
+iftitle [if exist (hd0,1)/_ISO/e2b/grub/e2b.cfg] Unhide E2B Partition\n Set E2B partition as #1 and make visible to Windows.\n Note: Windows Vista/7/8 Installs will then work!
+debug off
+# first get MBR into two areas of memory
+dd if=(hd0) of=(md)0x3000+1 count=1
+dd if=(hd0) of=(md)0x3100+1 count=1
+
+#check we have two ptns
+set /A n=*0x6001d2 & 0xFF
+if "%n%"=="0x0" pause --wait=3 ERROR: PTN2 is empty! && configfile /_ISO/e2b/grub/menu.lst
+
+#Now overwrite 2nd copy with tables from 1st copy but change the order...
+set /A m=*0x6001be
+write     0x6201ce %m%
+set /A m=*0x6001c2
+write     0x6201d2 %m%
+set /A m=*0x6001c6
+write     0x6201d6 %m%
+set /A m=*0x6001ca
+write     0x6201da %m%
+ 
+set /A m=*0x6001ce
+write     0x6201be %m%
+set /A m=*0x6001d2
+write     0x6201c2 %m%
+set /A m=*0x6001d6
+write     0x6201c6 %m%
+set /A m=*0x6001da
+write     0x6201ca %m%
+
+dd if=(md)0x3100+1 of=(hd0) count=1 
+
+find --set-root /_ISO/e2b/grub/menu.lst
+clear 
+configfile  /_ISO/e2b/grub/menu.lst
+

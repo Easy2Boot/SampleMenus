@@ -10,4 +10,6 @@ Easy2Boot can be found at http://www.easy2boot.com
 Additional tutorials can be found at http://www.rmprepusb.com
 
 
-This repository maintains the basic file system used by Easy2Boot.
+This repository maintains the basic file system structure used by Easy2Boot.
+
+All contributions should be added to "docs/Sample mnu files".  All other files are for reference only.

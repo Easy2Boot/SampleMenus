@@ -1,0 +1,20 @@
+
+# edit the XPISO entry and the title lines to match your ISO in the \_ISO\WINDOWS\XP folder (add more for different ISOs)
+
+title Install XP Pro 32-bit - Step 1\n Remember to select an AHCI driver (if required) \n AND FiraDisk AND WinVBlock drivers (using F6)!\n You must reboot to Easy2Boot again and run STEP 2 afterwards.
+set XPISO=MyXPPro.iso
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep1.g4b
+boot
+
+title Install XP Pro 32-bit - Step 2 (512MB+ systems)\n 2nd phase of setup (most reliable).\n This will complete the install and reboot from the hard disk.\n It requires at least 512MB of RAM to hold the ISO file.
+set XPISO=MyXPPro.iso
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep2.g4b
+boot
+
+title Install XP Pro 32-bit - Step 2 (Low RAM systems)\n Faster - use this if not enough system memory (<512MB). \n Direct ISO map for WinVBlock. Does not work on all\n systems, e.g. some Atom CPU based systems.
+set XPISO=MyXPPro.iso
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep2LowRam.g4b
+boot

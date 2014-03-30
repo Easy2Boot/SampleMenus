@@ -1,0 +1,15 @@
+#   Eset System Rescue ISO can boot as an ISO if you remake it - see http://www.rmprepusb.com/tutorials/115 
+# OR...
+#1. Extract the whole ISO to the root of the E2B drive, [BOOT] not required
+#2. Run EasyBCD - File - Select BCD Store - (select ***e2B drive:*** \boot\bcd file) and Add New Entry for WINPE - Portable/External Media
+#3.    Type: Extracted FilesSystem
+#4.    Name: ESA Rescue
+#5.   Drive: (drive letter of e2B drive)
+#6.   EMS Enabled (unticked)
+#7  ->> Add Entry
+#8  Edit Boot Menu - set new entry as the first entry (set a countdown if you like or 'wait for user selection')
+#9  Under Advanced Menu change drive letter to BOOT
+#10.Save Settings
+
+title ESA Rescue (Flat File) \n Boots directly from files on drive
+chainloader /bootmgr

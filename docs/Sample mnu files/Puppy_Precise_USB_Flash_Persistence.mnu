@@ -1,0 +1,13 @@
+# Only the ISO file is required for this menu - 4th ptn on USB drive must be empty! 
+# Copy this file to /_ISO/LINUX/MNU folder (or /_ISO/MAINMENU/MNU) and also the ISO file 
+# For E2B on USB FLASH DRIVE ONLY
+
+iftitle [if exist $HOME$/precise-5.4.3.iso] Puppy Precise 5.4.3\n Puppy with persistence (save on reboot/shutdown)
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+
+partnew (%E2BDEV%,3) 0x00 $HOME$/precise-5.4.3.iso 
+map $HOME$/precise-5.4.3.iso (0xff) 
+map --hook 
+root (0xff) 
+kernel /vmlinuz pmedia=usbflash psavemark=1 fix=fsck 
+initrd /initrd.gz 

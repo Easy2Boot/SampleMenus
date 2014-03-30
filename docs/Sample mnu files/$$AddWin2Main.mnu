@@ -1,0 +1,68 @@
+# How to add specific Windows Install ISOs to the Main E2B menu
+# Edit the examples to match your ISOs and add more entries if required - copy to \_ISO\MAINMENU folder
+
+# Use this for Vista/SVR2K8R2/Win7 ISOs
+iftitle [if exist /_ISO/WINDOWS/Win7/Win7_32_SP1.iso] Install Win7 SP1 32-bit \n Install from the ISO
+set MFOLDER=/_ISO/WINDOWS/Win7
+set ISO=Win7_32_SP1.iso
+/%grub%/%LANG%/RunVista.g4b  Win7
+boot
+
+# use this for Win8/8.1/SVR2012 ISOs
+iftitle [if exist /_ISO/WINDOWS/Win8/Win8.1_32.iso] Install Win8.1 32-bit \n Install from the ISO
+set MFOLDER=/_ISO/WINDOWS/Win8
+set ISO=Win8.1_32.iso
+/%grub%/%LANG%/RunWin8.g4b  Win8
+boot
+
+## XP ISOs
+
+iftitle [if %CXP%>=1 && if "%GFX%"==""] ^Alt+1 Install XP - Step 1 [Alt+1]\n Remember to select an AHCI driver (if required) \n AND FiraDisk AND WinVBlock drivers (using F6)!\n You must reboot to Easy2Boot again and run STEP 2 afterwards.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep1.g4b
+boot
+
+iftitle [if %CXP%>=1 && if not "%GFX%"==""] Install XP - Step 1\n Remember to select an AHCI driver (if required) \n AND FiraDisk AND WinVBlock drivers (using F6)!\n You must reboot to Easy2Boot again and run STEP 2 afterwards.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep1.g4b
+boot
+
+iftitle [if %CXP%>=1 && if "%GFX%"==""] ^Alt+2 Install XP - Step 2 [Alt+2] (512MB+ systems)\n 2nd phase of setup (most reliable).\n This will complete the install and reboot from the hard disk.\n It requires at least 512MB of RAM to hold the ISO file.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep2.g4b
+boot
+
+iftitle [if %CXP%>=1 && if not "%GFX%"==""] Install XP - Step 2 (512MB+ systems)\n 2nd phase of setup (most reliable).\n This will complete the install and reboot from the hard disk.\n It requires at least 512MB of RAM to hold the ISO file.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep2.g4b
+boot
+
+iftitle [if %CXP%>=1 && if "%GFX%"==""] ^Alt+3 Install XP - Step 2 [Alt+3] (Low RAM systems)\n Faster - use this if not enough system memory (<512MB). \n Direct ISO map for WinVBlock. Does not work on all\n systems, e.g. some Atom CPU based systems.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep2LowRam.g4b
+boot
+
+iftitle [if %CXP%>=1 && if not "%GFX%"==""] Install XP - Step 2 (Low RAM systems)\n Faster - use this if not enough system memory (<512MB). \n Direct ISO map for WinVBlock. Does not work on all\n systems, e.g. some Atom CPU based systems.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep2LowRam.g4b
+boot
+
+iftitle [if exist (bd)/_ISO/Windows/XP/WINPE_INST.TAG && if %CXP%>=1 && if "%GFX%"==""] ^X Install XP using WinPE ISO       [X]\n Install Windows XP to your hard disk using WinPE.\n You will also need a WinPE ISO or Windows Install ISO file\n (WinPE v2/3/4 or Vista Install ISO or later).
+set MYPATH=/_ISO/Windows/XP
+set WMYPATH=\\_ISO\\Windows\\XP
+set MFOLDER=/_ISO/WINDOWS/XP
+debug 1
+clear
+/%grub%/%LANG%/XPWINNT.g4b
+boot
+
+iftitle [if exist (bd)/_ISO/Windows/XP/WINPE_INST.TAG && if %CXP%>=1 && if not "%GFX%"==""] Install XP using WinPE\n Install Windows XP to your hard disk using WinPE.\n You will also need a WinPE ISO or Windows Install ISO file\n (WinPE v2/3/4 or Vista Install ISO or later).
+set MYPATH=/_ISO/Windows/XP
+set WMYPATH=\\_ISO\\Windows\\XP
+set MFOLDER=/_ISO/WINDOWS/XP
+debug 1
+clear
+/%grub%/%LANG%/XPWINNT.g4b
+boot
+
+

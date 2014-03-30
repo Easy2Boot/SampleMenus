@@ -1,0 +1,39 @@
+# Porteus ISOs (generic) - see www.RMPrepUSB.com Tutorial #72a for instructions
+# Copy Porteus.iso and Porteus.mnu to the /_ISO/Linux/MNU folder (or any similar 3rd level folder)
+# You can create the /porteus file using the RMPrepUSB Create Ext2 FS button (volume name=filename=porteus)
+
+iftitle [if exist $HOME$/Porteus.iso] Porteus + Persistence\n Run Porteus the best way we can. Try to autoconfigure graphics card and use the maximum allowed resolution.
+set ISO=Porteus.iso
+set PER=porteus
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+if exist CD echo WARNING: Cannot use partnew command! && pause && configfile (bd)/menu.lst
+partnew (%E2BDEV%,3) 0x0 $HOME$/%ISO%
+map $HOME$/%ISO% (0xff)
+
+#enable parttype output
+debug 1
+parttype (%E2BDEV%,2) | set check=
+debug off
+set check=%check:~-5,4%
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0 0 0
+if not "%check%"=="0x00" echo WARNING: PTN TABLE 3 IS ALREADY IN USE! && pause
+debug 1
+if not exist /%PER% echo WARNING: /%PER% persistence file not found! && pause
+errorcheck off
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0x0 /%PER%
+
+map --hook
+chainloader (0xff)
+root (0xff)
+kernel /boot/syslinux/vmlinuz changes=LABEL:%PER%/
+#kernel /boot/syslinux/vmlinuz from=$HOME$/%ISO% changes=LABEL:%PER%/
+initrd /boot/syslinux/initrd.xz
+
+
+
+    
+
+
+
+
+

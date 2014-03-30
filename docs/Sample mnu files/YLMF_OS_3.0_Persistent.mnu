@@ -1,0 +1,8 @@
+# copy to \_ISO\LINUX\MNU or \_ISO\MAINMENU\MNU folder
+
+iftitle [if exist $HOME$/Ylmf_OS_3.0.iso] Boot YlmF (Windows Like OS) Non-Persistent 
+map $HOME$/Ylmf_OS_3.0.iso (0xff)
+map --hook
+root (0xff)
+kernel /casper/vmlinuz file=/cdrom/preseed/ubuntu.seed boot=casper  persistent iso-scan/filename=$HOME$/ylmf_OS_3.0.iso floppy.allowed_drive_mask=0 splash
+initrd /casper/initrd.img

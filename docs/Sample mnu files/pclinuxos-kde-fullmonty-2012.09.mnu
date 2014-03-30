@@ -1,0 +1,33 @@
+# For persistence:
+# Create Ext2 FS button - use 'changes' for the filename and volume label and choose a suitable size (e.g. 256MB, 480MB, 900MB or 1GB)
+# copy ISO and this file to the MNU subfolder on your Easy2Boot drive - e.g. \_ISO\MAINMENU\MNU or \_ISO\LINUX\MNU
+# IMPORTANT: you MUST run WinContig (Ctrl+F2) before booting E2B.
+
+iftitle [if exist $HOME$/pclinuxos-kde-fullmonty-2012.09.iso] Boot pclinuxos-kde-fullmonty-2012.09.iso WITH PERSISTENCE
+if exist CD echo WARNING: Cannot use partnew command! && pause && configfile (bd)/menu.lst
+
+#must enable parttype output
+debug 1
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+
+# make empty table entry in 3rd position in ptn table
+parttype (%E2BDEV%,2) | set check=
+set check=%check:~-5,4% > nul
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0 0 0 > nul
+if not "%check%"=="0x00" echo WARNING: PTN TABLE 3 IS ALREADY IN USE! && pause && configfile (bd)/%grub%/menu.lst
+
+if not exist (bd)/changes echo WARNING: ext2 /changes file does not exist - SO NO PERSISTENCE! && pause
+# set partition 4 of USB be drive to contents of the ISO
+partnew (%E2BDEV%,3) 0x00 $HOME$/pclinuxos-kde-fullmonty-2012.09.iso && echo Partition 4 now points to the ISO file
+# set partition 3 of USB to be changes files which is formatted as ext2 filesystem
+if exist (bd)/changes partnew (%E2BDEV%,2) 0x00 /changes && echo Partition 3 now points to /changes file!
+if exist (bd)/changes echo Persistence uses ext2/3 file /changes (which must have a volume label of changes)
+# map iso
+map  $HOME$/pclinuxos-kde-fullmonty-2012.09.iso (0xff)
+map --hook 
+root (0xff) > nul
+# change splash=silent to splash=verbose to see all messages
+kernel /isolinux/vmlinuz livecd=livecd root=/dev/rd/3 acpi=on vga=788 keyb=en vmalloc=256M nokmsboot splash=silent changes_dev=LABEL=changes fromusb > nul
+#To run from RAM use the copy2ram cheatcode
+initrd /isolinux/initrd.gz > nul
+pause --wait=3 Booting from ISO file...

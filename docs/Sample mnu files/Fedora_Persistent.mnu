@@ -1,0 +1,15 @@
+#Extract the \LiveOS files to the USB drive
+#Copy the vmlinuz0 and initrd0.img files from the \isolinux folder to the USB \LiveOS folder
+#For persistency, use the RMPrepUSB Make Ext2FS button to make overlay-LIVE-%UUID% and copy the file to USB \LiveOS folder
+#See www.rmprepusb.com  Tutorial 67 for details
+# IMPORTANT: you MUST run WinContig (Ctrl+F2) before booting E2B.
+
+
+title FEDORA + PERSISTENCE
+uuid () > nul
+set UUID=%?%
+echo %UUID%
+if not exist /LiveOS/overlay-LIVE-%UUID% echo WARNING: Changes will not be remembered unless a /LiveOS/overlay-LIVE-%UUID% ext2 file is created! && pause
+kernel /liveos/vmlinuz0 root=live:UUID=%UUID% rootfstype=auto rw liveimg overlay=UUID=%UUID% quiet  rhgb rd.luks=0 rd.md=0 rd.dm=0 xdriver=vesa nomodeset
+initrd /liveos/initrd0.img
+

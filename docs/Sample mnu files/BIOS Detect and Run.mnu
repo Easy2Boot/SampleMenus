@@ -1,0 +1,29 @@
+# Example menu. Look for a BIOS string and then pick correct ISO file
+# force.isope01 forces it to run as a .isope01 even if the file is an ISO file
+# strings are not case-sensitive - ISO files must be in same folder as this .mnu file
+# 0x7ff+0x01 searches 512 bytes at end of BIOS ROM, 0x600+0x40 will search the BIOS VGA ROM area
+# 0x680+0x180 searches all of BIOS from 0xD000:0 to 0xFFFF:F (and so will be slower)
+# remove the " > nul" text if you want to see the strings that it has found
+
+title Run WinPE ISO \n Auto-detect based on BIOS strings
+set ISO=
+set GOTSTR=
+
+# TESTS START HERE
+if not exist GOTSTR call /%grub%/SearchBS.g4b 0x780+0x80 "eeepc" > nul
+if "%GOTSTR%"=="1" set ISO=AsusEeePC.iso
+#
+if not exist GOTSTR call /%grub%/SearchBS.g4b 0x780+0x80 "inspiron 530" > nul
+if "%GOTSTR%"=="1" set ISO=Dell530.iso
+#
+if not exist GOTSTR call /%grub%/SearchBS.g4b 0x680+0x40 "ATI technologies" > nul
+if "%GOTSTR%"=="1" set ISO=ATIVGA.iso
+#
+if not exist GOTSTR call /%grub%/SearchBS.g4b 0x680+0x180 "samsung" > nul
+if "%GOTSTR%"=="1" set ISO=Samsung.iso
+# ADD MORE TESTS HERE
+
+if "%ISO%"=="" echo WARNING: BIOS NOT IDENTIFIED! && pause && set MFOLDER=/_ISO/MAINMENU && configfile (md)0xa000+0x50
+if not "%ISO%"=="" && pause --wait=3  SYSTEM IDENTIFIED - BOOTING %ISO%...
+/%grub%/qrun.g4b force.isope01 $HOME$/%ISO%
+boot

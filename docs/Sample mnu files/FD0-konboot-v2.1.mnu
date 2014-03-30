@@ -1,0 +1,13 @@
+## Download and extract the KonBoot 2.1 floppy disk image - kon-bootFLOPPY.img
+## Copy the kon-bootFLOPPY.imgfile and the .mnu file to the \_ISO\MAINMENU\MNU folder
+
+iftitle [if exist $HOME$/kon-bootFLOPPY.img] KONBOOT 2.1\nPress Enter once Kon-Boot starts to run then allow it to boot your system to Windows
+errorcheck off 
+map --mem $HOME$/kon-bootFLOPPY.img (fd0)
+# If current grub4dos root drive (UDF)(stored at 0x8280 in memory) is 0x80 (=hd0), remap (hd0) to (hd1), else do nothing
+checkrange 0x80 read 0x8280 && map (hd0) (hd1)
+# If current grub4dos root drive (UDF) (stored at 0x8280 in memory) is 0x80 (=hd0), remap (hd1) (=internal hard drive) to (hd0), else do nothing
+checkrange 0x80 read 0x8280 && map (hd1) (hd0)
+map --hook
+chainloader (fd0)+1
+rootnoverify (fd0)

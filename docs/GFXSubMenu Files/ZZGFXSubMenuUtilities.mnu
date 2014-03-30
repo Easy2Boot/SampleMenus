@@ -1,0 +1,14 @@
+﻿# EXAMPLE .MNU FILE (place in \_ISO\MAINMENU folder to list in the Main Menu)
+# You can add payload and .mnu files under \_ISO\UTILITIES
+# EDIT the first few lines to match the name of your folder and heading
+
+iftitle [ls (bd)/_ISO/UTILITIES/ > (md)0x9F00+1 && checkrange 1:-1 read 0x13E0000 > nul && if not "%GFX%"==""] UTILITIES Menu\n Memtest, etc.
+#MFOLDER must be the full folder path starting with /
+set MFOLDER=/_ISO/UTILITIES
+#HDG is the top heading for the menu
+set HDG=\x20                     Utilities Menu                   \x20
+
+(bd)/%grub%/SubMenu.g4b
+boot
+
+

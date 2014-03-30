@@ -1,0 +1,12 @@
+# copy this file and the .iso file to \_ISO\LINUX\MNU folder or \_ISO\MAINMENU\MNU folder
+
+iftitle [if exist $HOME$/mandriva-linux-PWP-2011-i586.iso] Mandriva PWP 2011 /n Install Mandriva PWP 2011
+set mancd=$HOME$/mandriva-linux-PWP-2011-i586.iso
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+
+partnew (%E2BDEV%,3) 0x0 %mancd% 
+map %mancd% (0xff) 
+map --hook
+root (0xff)
+kernel /i586/isolinux/alt0/vmlinuz  automatic=method:disk,disk:sda,partition:sda4,directory:/ vga=791 splash=silent
+initrd /i586/isolinux/alt0/all.rdz

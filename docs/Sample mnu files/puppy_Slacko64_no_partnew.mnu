@@ -1,0 +1,14 @@
+#pmedia=
+#pmedia=usbflash
+#pmedia=usbhd
+#pmedia=satahd
+#pmedia=idehd
+#pmedia=scsihd
+
+# Extract files from ISO to /_ISO/XXX/XXX (only vmlinuz, initrd.gz and sfs needed) 
+# case must be correct
+
+title SLACKO EXTRACTED 
+kernel $HOME$/vmlinuz pmedia= psubdir=$HOME$ fix=fsck psavemark=1 
+initrd $HOME$/initrd.gz 
+

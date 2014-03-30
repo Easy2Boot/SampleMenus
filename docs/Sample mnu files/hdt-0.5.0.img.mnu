@@ -1,0 +1,18 @@
+:: Easy2Boot .mnu file for Hardware Diagnostic Tool HDT from http://hdt-project.org/
+:: See Tutorial #72 at www.rmprepusb.com for details
+
+:: hdt-0.5.0.img.gz
+::MD5: df2862547e939f133fb756feb0a77f57
+::SHA1: de93f96a617045d9ca3d6b282584dd2cf785096a
+::CRC32: d2fe9945
+
+:: INSTRUCTIONS
+:: 1. download the hdt-0.5.0.img.gz 1.44MB gzipped floppy image 
+:: 2. Copy this .mnu file and the downloaded hdt-0.5.0.img.gz file to /_ISO/XXX/MNU folder
+:: 3. Ensure the file is contiguous by running WinContig (RMPrepUSB Ctrl+F2)
+
+iftitle [if exist $HOME$/hdt-0.5.0.img.gz] Hardware Diagnostic tool
+map --mem $HOME$/hdt-0.5.0.img.gz (fd1)
+map --hook
+root (fd1)
+chainloader +1

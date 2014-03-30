@@ -1,0 +1,8 @@
+# place UBCD4WinBuilder.iso and this .mnu file into \_ISO\MAINMENU\MNU folder or \_ISO\XXX\MNU folder
+# Test on real system NOT VM!
+iftitle [if exist $HOME$/UBCD4WinBuilder.iso] UBCD4WinBuilder from ISO file using firadisk
+map --mem (bd)/%grub%/firadisk.gz (fd0)
+map --mem $HOME$/UBCD4WinBuilder.iso (0xff)
+map --hook
+root (0xff)
+chainloader (0xff)

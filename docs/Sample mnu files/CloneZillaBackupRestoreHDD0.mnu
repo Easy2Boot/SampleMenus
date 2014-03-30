@@ -1,0 +1,125 @@
+# Make a \_ISO\BACKUP\MNU folder and copy clonezilla-live-20131125-saucy-i386.iso and this file to it
+# If you want the menu to appear in the Main E2B menu - use a \_ISO\MAINMENU\clonezilla folder instead.
+# Make and empty \clonezilla folder on your E2B drive at the root (note: all lowercase letters)
+
+title Create Backup Image of first Hard Disk (Clonezilla)\n Make an image backup of your internal hard disk
+set ISO=$HOME$/clonezilla-live-20131125-saucy-i386.iso
+set WDRV=sda
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+#echo Using special patch for Dell systems && map --e820cycles=0
+# Backup drive is always last drive
+set /a HDCNT=*0x475 & 0xff
+set /A BAKDRV=%HDCNT%+0x60
+echo %BAKDRV:~1,9% | set dlet=
+echo -e sd\%dlet%1 | set BAKDRV=
+echo BACKUP DRIVE
+echo -e ============
+echo
+echo BACKUP IMAGES will be placed in clonezilla folder on $[010f]%BAKDRV%
+set /p ask=Press ENTER if OK or specify the linux name of the USB partition (e.g. %BAKDRV%) : 
+echo
+echo
+if not "%ask%"=="" set BAKDRV=%ask%
+set ask=
+echo The drive to be backed up will be $[010f]%WDRV%
+set /p ask=Press ENTER if OK or specify the linux name of the target drive (e.g. %WDRV%) : 
+echo
+if not "%ask%"=="" set WDRV=%ask%
+echo
+echo You can check the drive names once CloneZilla has booted.
+echo -e When Clonezilla starts, select <Cancel>
+echo Then choose 'cmd' to get to the command prompt
+echo Then type    sudo fdisk -l            to show all the drives in the system
+echo or   type    sudo fdisk -l /dev/sdb   to show drive sdb parameters
+echo
+echo $[010f]%BAKDRV% WILL CONTAIN THE IMAGE FILES
+echo $[010f]%WDRV%  WILL BE THE DRIVE TO BE BACKED UP
+echo
+set /p ask=Press Y to continue (Y/N) : 
+if not /I "%ask%"=="Y" set MFOLDER=/_ISO/MAINMENU && configfile (md)0xa000+0x50
+echo
+set ask=
+set HDCNT=
+set dlet=
+partnew (%E2BDEV%,3) 0x00 %ISO%
+map %ISO% (0xff)
+map --hook
+set BOPT=boot=live quiet live-config noswap nolocales edd=on nomodeset ip=frommedia ocs_live_keymap="NONE" splash
+set RUN=ocs_live_run="ocs-live-general" keyboard-layouts="NONE" locales="en_US.UTF-8" live-media-path=/live toram=filesystem.squashfs ocs_live_batch="yes" 
+set PRERUN=ocs_prerun="mount /dev/%BAKDRV% /mnt" ocs_prerun1="mount --bind /mnt/clonezilla /home/partimag/"
+set RUN1=ocs_live_run="ocs-sr -q2 -c --batch -j2 -z1p -i 2000 -sc -p true savedisk ask_user %WDRV%"
+#echo kernel /clonezilla/live/vmlinuz %BOPT% %RUN% %PRERUN% %RUN1%
+#pause
+root (0xff)
+kernel /live/vmlinuz %BOPT% %RUN% %PRERUN% %RUN1%
+initrd /live/initrd.img
+
+
+title Restore a Disk Image to first Hard Disk (Clonezilla)\n Restores all partitions from an image.\n WARNING: THIS DESTROYS ALL PARTITIONS and FILES!
+set ISO=$HOME$/clonezilla-live-20131125-saucy-i386.iso
+set WDRV=sda
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+#echo Using special patch for Dell systems && map --e820cycles=0
+# Backup drive is always last drive
+set /a HDCNT=*0x475 & 0xff
+set /A BAKDRV=%HDCNT%+0x60
+echo %BAKDRV:~1,9% | set dlet=
+echo -e sd\%dlet%1 | set BAKDRV=
+echo RESTORE DRIVE
+echo -e =============
+echo
+echo IMAGE FILES will be looked for in the clonezilla folder on $[010f]%BAKDRV%
+set /p ask=Press ENTER if OK or specify the linux name of the USB partition (e.g. %BAKDRV%) : 
+echo
+echo
+if not "%ask%"=="" set BAKDRV=%ask%
+echo The drive to be written to (all partitions) will be $[010f]%WDRV%
+set /p ask=Press ENTER if OK or specify the linux name of the target drive (e.g. %WDRV%) : 
+echo
+if not "%ask%"=="" set WDRV=%ask%
+echo
+echo You can check the drive names once CloneZilla has booted.
+echo -e When Clonezilla starts, select <Cancel>
+echo Then choose 'cmd' to get to the command prompt
+echo Then type    sudo fdisk -l            to show all the drives in the system
+echo or   type    sudo fdisk -l /dev/sdb   to show drive sdb parameters
+echo
+echo $[010f]%BAKDRV% WILL CONTAIN THE IMAGE FILES
+echo $[010f]%WDRV%  WILL BE THE DRIVE TO BE RESTORED (all drive contents will be destroyed)
+echo
+echo $[010f]PLEASE NOTE: All partitions on drive %WDRV% will be destroyed.
+echo
+set /p ask=Press Y to continue (Y/N) : 
+if not /I "%ask%"=="Y" set MFOLDER=/_ISO/MAINMENU && configfile (md)0xa000+0x50
+echo
+set ask=
+set HDCNT=
+set dlet=
+partnew (%E2BDEV%,3) 0x00 %ISO%
+map %ISO% (0xff)
+map --hook
+set BOPT=boot=live quiet live-config noswap nolocales edd=on nomodeset ip=frommedia ocs_live_keymap="NONE" splash
+set RUN=ocs_live_run="ocs-live-general" keyboard-layouts="NONE" locales="en_US.UTF-8" live-media-path=/live toram=filesystem.squashfs ocs_live_batch="yes" 
+set PRERUN=ocs_prerun="mount /dev/%BAKDRV% /mnt" ocs_prerun1="mount --bind /mnt/clonezilla /home/partimag/"
+set RUN1=ocs_live_run="ocs-sr -c --batch -g auto -e1 auto -e2 -j2    -p true restoredisk ask_user %WDRV%"
+#echo kernel /clonezilla/live/vmlinuz %BOPT% %RUN% %PRERUN% %RUN1%
+#pause
+root (0xff)
+kernel /live/vmlinuz %BOPT% %RUN% %PRERUN% %RUN1%
+initrd /live/initrd.img
+
+#default params:
+#kernel /live/vmlinuz boot=live username=user hostname=saucy config quiet union=overlayfs noswap edd=on nomodeset noeject locales= keyboard-layouts= ocs_live_run="ocs-live-general" ocs_live_extra_param="" ocs_live_batch=no video=uvesafb:mode_option=800x600-16 ip=frommedia  splash i915.blacklist=yes radeonhd.blacklist=yes nouveau.blacklist=yes vmwgfx.enable_fbdev=no
+ 
+
+
+title CloneZilla (boot directly from the ISO file)\n Boot from the ISO for advanced options
+set ISO=$HOME$/clonezilla-live-20131125-saucy-i386.iso
+#echo Using special patch for Dell systems && map --e820cycles=0
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+partnew (%E2BDEV%,3) 0x00 %ISO%
+map %ISO% (0xff)
+map --hook
+root (0xff)
+chainloader (0xff)
+

@@ -1,0 +1,16 @@
+
+# Easy2Boot menu for ReactOS
+# 
+# Download a Live CD ISO file from http://www.reactos.org/en/index.html
+# Extract the contents of the ISO file and copy them to the ROOT (top level) of your USB drive - e.g.
+# /freeldr.ini file
+# /loader folder
+# /profiles folder
+# /reactos folder
+
+# Most recent versions of ReactOS will work (if you update the version you must delete the old folders first before you copy over the new folders)
+
+iftitle [if exist /loader/setupldr.sys] ReactOS Live CD\nReactOS is an XP-compatible open-source version still in development!
+chainloader /loader/setupldr.sys
+
+

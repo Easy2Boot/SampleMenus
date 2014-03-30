@@ -1,0 +1,1 @@
+title Kali Linux\n To INSTALL to another disk, run the shell and type:\n mount -t iso9660 -o ro /dev/sdb4 /cdrom\n You can use ls /dev/ to find the correct name of the USB drive\n Then type exit and continue

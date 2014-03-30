@@ -1,0 +1,20 @@
+:: Easy2Boot .mnu file for DOS622.img from http://www.BootDisk.com
+:: See Tutorial #72 at www.rmprepusb.com for details
+:: Check MD5 value after download using RMPrepUSB + CTRL.C
+:: Author - Larry Kraemer
+:: Dos622.img  (/_ISO/DOS/MNU/Dos622.img)
+:: MD5:    acc0bad5ff9d9142517b42993e2bc0b1
+:: SHA1:   298d38388c0747350c4b730fb4b6457c970c8567
+:: CRC32B: ae37813e
+:: SHA256: 8959ba28a75ed1131c20aca2d0b9bc78369f8926d24136d56d2f196f630f31ec
+:: INSTRUCTIONS
+:: 1. Download the Dos622.img file, verify the MD5SUM...
+:: 2. Copy Dos622.img and this .mnu file to /_ISO/XXXX/MNU folder (e.g. /_ISO/MAINMENU/MNU)
+:: 3. Ensure the file is contiguous by running WinContig (RMPrepUSB Ctrl+F2)
+
+iftitle [if exist $HOME$/Dos622.img] Boot from DOS 6.22 Floppy Image
+map --mem $HOME$/Dos622.img (fd0) || $HOME$/Dos622.img (fd0)
+map --hook
+chainloader (fd0)+1
+rootnoverify (fd0)
+map --floppies=1

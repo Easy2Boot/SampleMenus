@@ -1,0 +1,11 @@
+# Copy the ISO named ERDCommander2005.iso and this file to /_ISO/XXX/MNU folder
+
+iftitle [if exist $HOME$/ERDCommander2005.iso]  ERD commander ISO via WinVblock
+map --mem $HOME$/ERDCommander2005.iso (0xff) || map $HOME$/ERDCommander2005.iso (0xff)
+if not exist CD map (hd0) (hd1)
+if not exist CD map (hd1) (hd0)
+map --mem /%grub%/winvblock.img.gz (fd0)
+map --mem /%grub%/winvblock.img.gz (fd1)
+map --hook
+root (0xff)
+chainloader (0xff)/I386/setupldr.bin

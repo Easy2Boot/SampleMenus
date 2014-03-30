@@ -1,0 +1,12 @@
+iftitle [if "%GFX%"==""] ^F8 Reload Main Menu  [F8]\n
+debug 0
+if exist (bd)/_ISO/e2b/grub/menu.lst configfile (bd)/%grub%/menu.lst 
+if not exist (bd)/_ISO/e2b/grub/menu.lst set MFOLDER=/_ISO/MAINMENU && configfile (md)0xA000+0x50
+boot
+
+iftitle [if not "%GFX%"==""] Reload Main Menu\n
+debug 0
+#clear all variables if reload menu.lst!
+if exist (bd)/_ISO/e2b/grub/menu.lst configfile (bd)/%grub%/menu.lst 
+if not exist (bd)/_ISO/e2b/grub/menu.lst set MFOLDER=/_ISO/MAINMENU && configfile (md)0xA000+0x50
+boot

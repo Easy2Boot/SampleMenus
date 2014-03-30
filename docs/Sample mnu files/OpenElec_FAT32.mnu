@@ -1,0 +1,15 @@
+#http://rmprepusb.blogspot.co.uk/2013/10/run-openelec-live-from-your-easy2boot.html
+#http://rmprepusb.blogspot.co.uk/2013/10/how-to-add-openelec-installer-to.html
+#FAT32 E2B drive only - extract KERNEL and SYSTEM files to E2B drive
+
+title OpenELEC Live
+uuid () > nul
+set UUID=%?%
+kernel /KERNEL boot=UUID=%UUID% disk=FILE=STORAGE,512
+
+
+title OpenElec Installer
+uuid () > nul
+set UUID=%?%
+echo UUID=%UUID%
+kernel /KERNEL boot=UUID=%UUID% installer

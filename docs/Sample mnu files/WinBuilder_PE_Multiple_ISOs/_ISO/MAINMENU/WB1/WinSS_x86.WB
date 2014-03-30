@@ -1,0 +1,3 @@
+!BAT
+#Set the filename of the WinBuilder INI file that is in the root of the E2B drive (no path)
+set IniName=Win7PESE.ini

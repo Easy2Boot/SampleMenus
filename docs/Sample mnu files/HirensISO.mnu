@@ -1,0 +1,12 @@
+# Generic Hirens ISO .mnu file - name and Hirens ISO as Hirens.iso (or change name in menu)
+# (optional for DOS Utilities and full MiniXP functions) 
+#    Extract the \HBCD or \DLC or \DLC1 folder from the ISO using 7Zip and copy to the root of the Easy2Boot drive
+# Place iso and .mnu file in \_ISO\MAINMENU\MNU or \_ISO\UTILITIES\MNU folder
+ 
+iftitle [if exist $HOME$/Hirens.iso] Hirens multiboot ISO\n Boot from Hirens ISO file.\n DOS and MiniXP may not work unless \\HBCD or \\DLC1 folder\n is extracted!
+set ISO=Hirens.iso
+set /p ask=Do you want to run Kon-Boot from %ISO% ? (Y/N) : 
+if /i "%ask%"=="Y" set K=1
+if not "%K%"=="1" (bd)/%grub%/qrun.g4b   $HOME$/Hirens.isowinvH $HOME$/%ISO%
+if "%K%"=="1"     (bd)/%grub%/qrun.g4b   $HOME$/Hirens.isowinv  $HOME$/%ISO%
+boot

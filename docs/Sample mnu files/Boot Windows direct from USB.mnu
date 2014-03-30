@@ -1,0 +1,5 @@
+# This assumes that you have Windows XP/7/8 installed to the same partition as E2B so you can boot to Windows from the E2B menu
+# Place this .mnu file in _ISO\MAINMENU 
+
+title Boot to Windows To Go \n This will boot to whatever Windows is installed on the USB drive
+chainloader /bootmgr || chainloader /ntldr

@@ -1,0 +1,11 @@
+# Extract the iso \slax folder using 7Zip to \_ISO\MAINMENU\MNU and rename it to slax708_32  
+#   (so, for example, the first file will be at \_ISO\MAINMENU\MNU\slax708_32\01-core.sb)
+# Copy this .mnu file to \_ISO\MAINMENU\MNU
+# The  \_ISO\MAINMENU\MNU\slax708_32\changes   folder must exist for persistence to activate
+# Persistence does not work if the slax folder is on an NTFS or read-only volume!
+
+iftitle [if exist $HOME$/slax708_32/01-core.sb] SLAX 7.0.8 32-bit persistent \n Run Slax with persistent changes (FAT32 ONLY)
+if not exist $HOME$/slax708_32/changes/changes.dat echo Info: Persistence file is not yet present... && pause --wait=2
+set slaxsrc=$HOME$/slax708_32
+kernel %slaxsrc%/boot/vmlinuz vga=normal rw slax.flags=perch,xmode from=%slaxsrc%
+initrd %slaxsrc%/boot/initrfs.img

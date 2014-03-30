@@ -1,0 +1,8 @@
+# extract /HBCD, /BOOT and /F4UBCD folders from F4UBCD-4.6.iso to root of USB drive
+# delete /F4UBCD/Images/RIPLINUX.LZ  (70MB)
+# copy this .mnu file and F4UBCD.lst to /_ISO/MAINMENU/MNU  or /_ISO/LINUX/MNU
+# For RIPLinux use separate ISO - download RIPLinuX-13.7.iso from www.tux.org/pub/people/kent-robotti/looplinux/rip and place in \_ISO\MAINMENU folder
+# If you do not copy the \BOOT folder, then you can still run MiniXP from F4UBCD-4.6.isowinvH in the \_ISO\MAINMENU folder - but MSDart will NOT work
+
+iftitle [if exist $HOME$/F4UBCD.lst && ls /F4UBCD] ^Ctrl+F F4UBCD 4.6 Menu [Ctrl+F]\n FalconFour's Ultimate Boot CD
+configfile $HOME$/F4UBCD.lst

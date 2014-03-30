@@ -1,0 +1,11 @@
+# Easy2Boot Hirens Boot CD v15.2
+# Download ISO from http://www.hirensbootcd.org/download/
+# Extract the whole ISO file using 7Zip to the root of the Easy2Boot USB drive so you have a \HBCD folder on the Easy2Boot drive
+# Copy this .mnu file to any folder under the E2B \_ISO folder - e.g. \_ISO\MAINMENU or \_ISO\UTILITIES\UTILITY
+
+iftitle [if exist /HBCD/menu.lst] Hiren's Boot CD (extracted)\n If you have an NTFS drive and want DOS Utilities to work,\n boot to MiniXP ann run HBCD\\DOS\\dosimg.cmd\n Follow the instructions.
+configfile /HBCD/menu.lst
+
+
+
+

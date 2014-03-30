@@ -1,0 +1,11 @@
+# Easy2Boot DLCD Hirens Boot CD 2013/2014
+# Download ISO and extract the ISO file using 7Zip to the root of the Easy2Boot USB drive so you have a \Boot and \DLCD folder on the Easy2Boot drive
+# Copy this .mnu file to any folder under the E2B \_ISO folder - e.g. \_ISO\MAINMENU or \_ISO\UTILITIES
+
+iftitle [if exist /DLCD/menu.lst] DLCD Hiren's Boot CD (extracted)\n If you have an NTFS drive and want DOS Utilities to work,\n boot to MiniXP ann run DLCD\\DOS\\dosimg.cmd\n Follow the instructions.
+find --set-root /DLCD/menu.lst
+configfile /DLCD/menu.lst
+
+
+
+

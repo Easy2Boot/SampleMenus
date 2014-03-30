@@ -1,0 +1,10 @@
+﻿
+iftitle [if not "%CALL%"=="0" && if "%GFX%"==""] ^W WINDOWS INSTALL   [W] (%CALL% present)\n Install Windows to a Hard Disk using an ISO file.
+debug 0
+configfile (bd)/%grub%/%LANG%/MenuWinInstall.lst
+
+iftitle [if not "%CALL%"=="0" && if not "%GFX%"==""] WINDOWS INSTALL \n Install Windows to a Hard Disk using an ISO file.
+debug 0
+configfile (bd)/%grub%/%LANG%/MenuWinInstall.lst
+
+

@@ -1,0 +1,35 @@
+This folder should be used for payload files which require a .mnu file.
+
+.mnu files can be found in the '\_ISO\docs\sample mnu files' folder or you can make you own .mnu files.
+The name of the folders at the 3rd level (MNU) does not matter, you can change it or add new folders at that level if you wish.
+
+Payload files that are placed at the 2nd level (\_ISO\xxxxxx) are automatically added to the menu by Easy2Boot and require no .mnu file.
+
+Payload files that are placed at the 3rd level or below (e.g. \_ISO\xxxxxx\MNU) 
+are not automatically added to the Easy2Boot menu. They require a .mnu file.
+
+.mnu files are detected by Easy2Boot at the 2nd folder level and below (i.e. \_ISO\xxxxxx) and are added
+to the menu by Easy2Boot.
+
+If you add a payload file and a .mnu file at the 2nd level (e.g. \_ISO\xxxxxx) then both the .mnu file AND
+the payload file will be added to the menu and you will see two menu entries for the one payload file! 
+To avoid this, place payload files that have a .mnu file at the 3rd level (\_ISO\xxxxxx\MNU) or below.
+Although the .mnu file can be placed at the 2nd level, it is neater to also place the .mnu file in the same
+folder as it's payload file.
+
+e.g.
+
+\_ISO\MAINMENU\fred.iso
+\_ISO\MAINMENU\MNU\doris.iso
+\_ISO\MAINMENU\MNU\doris.mnu
+\_ISO\MAINMENU\XTRA\bill.iso
+\_ISO\MAINMENU\XTRA\bill.mnu
+
+This will result in 3 entries being added to the Main E2B menu
+
+fred.iso
+<the title used in doris.mnu>
+<the title used in bill.mnu>
+
+
+See www.rmprepusb.com Tutorial 72a for more details.

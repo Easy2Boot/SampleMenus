@@ -1,0 +1,15 @@
+﻿# EXAMPLE .MNU FILE (place in \_ISO\MAINMENU folder to list in the Main Menu)
+# You can add payload and .mnu files under \_ISO\ANTIVIRUS
+# EDIT the first few lines to match the name of your folder
+
+iftitle [ls (bd)/_ISO/ANTIVIRUS/ > (md)0x9F00+1 && checkrange 1:-1 read 0x13E0000 > nul && if "%GFX%"==""] ^Ctrl+A ANTIVIRUS Menu    [Ctrl+A]\n AntiVirus utilities
+#MFOLDER must be the full folder path starting with /
+set MFOLDER=/_ISO/ANTIVIRUS
+#HDG is the top heading for the menu
+set HDG=\x20                     AntiVirus utilities                   \x20
+
+(bd)/%grub%/SubMenu.g4b
+boot
+
+
+

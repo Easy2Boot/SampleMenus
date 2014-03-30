@@ -1,0 +1,11 @@
+# Extract files from the ISO - copy the \tables folder to the root of the boot drive (you can add tables from both XP and Vista ISOs)
+# Copy the boot folder to /_ISO/ophcrack/boot
+# Copy this mnu file to /_ISO/XXX/Linux - See Tutorial 13 for more details.
+
+iftitle [if exist /_ISO/ophcrack/boot/bzImage] OphCrack 2.3.1 Password Cracker (lowram - slower)
+kernel /_ISO/ophcrack/boot/bzImage rw root=/dev/null vga=normal ophcrack=lowram lang=C kmap=uk screen=1024x768x16 autologin
+initrd /_ISO/ophcrack/boot/rootfs.gz
+
+iftitle [if exist /_ISO/ophcrack/boot/bzImage] OphCrack 2.3.1 Password Cracker (>512MB RAM - faster)
+kernel /_ISO/ophcrack/boot/bzImage rw root=/dev/null vga=normal  lang=C kmap=uk screen=1024x768x16 autologin
+initrd /_ISO/ophcrack/boot/rootfs.gz 

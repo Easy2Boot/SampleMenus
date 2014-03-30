@@ -1,0 +1,23 @@
+# ISO files must be in \_ISO\WINDOWS\Win8 folder
+
+title Install Windows 8 (32 or 64-bit) \n Auto-detects based on CPU type
+# suppress return to Windows Install menu
+set NOWMENU=1
+set ISO=Win832.iso
+checkrange 2,3 is64bit && set ISO=Win864.iso
+pause WILL BOOT %ISO%
+set MFOLDER=/_ISO/WINDOWS/Win8
+/%grub%/%LANG%/RunWin8.g4b  Win8
+boot
+
+# ISO files must be in \_ISO\WINDOWS\Win7 folder
+
+title Install Windows 7 (32 or 64-bit) \n Auto-detects based on CPU type
+# suppress return to Windows Install menu
+set NOWMENU=1
+set ISO=Win732.iso
+checkrange 2,3 is64bit && set ISO=Win764.iso
+pause WILL BOOT %ISO%
+set MFOLDER=/_ISO/WINDOWS/Win7
+/%grub%/%LANG%/RunVista.g4b  Win7
+boot

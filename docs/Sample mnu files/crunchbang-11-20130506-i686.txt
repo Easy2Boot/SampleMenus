@@ -1,0 +1,1 @@
+title CrunchBang\n To INSTALL to another disk, run the shell and type:\n mount /dev/sdb4 /cdrom\n You can use ls /dev/ to find the correct name of the USB drive\n Then type exit and continue

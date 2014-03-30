@@ -1,0 +1,32 @@
+# For persistence, create an ext2 file called casper-rw in the root of the boot drive using RMPrepUSB Create ext2 FS button
+# Then rename the file to BT5-rw  (do NOT create a file called BT5-rw - you MUST create a file called casper-rw and then rename it!) (i.e. File Name=BT5-rw Volume Name=casper-rw)
+# Place ISO in \_ISO\Mainmenu\MNU or \_ISO\LINUX\MNU (and this .mnu file too)
+# DOES NOT WORK UNDER VM!!!
+# IMPORTANT: you MUST run WinContig (Ctrl+F2) before booting E2B.
+
+
+iftitle [if exist $HOME$/BT5R2-GNOME-32.iso] BackTrack 5 (1024x768) Persistent\nType startx to run GUI once booted
+if exist CD echo WARNING: Cannot use partnew command! && pause && configfile (bd)/menu.lst
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+#enable parttype output
+debug 1
+# make empty table entry in 3rd position in ptn table
+parttype (%E2BDEV%,2) | set check=
+debug off
+set check=%check:~-5,4%
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0 0 0
+if not "%check%"=="0x00" echo WARNING: PTN TABLE 3 IS ALREADY IN USE! && pause
+debug 1
+#clear ptn 4
+if "%check3%"==0x00" partnew (%E2BDEV%,3) 0x0 0 0 0
+if not exist (bd)/BT5-rw echo WARNING: /BT5-rw persistence file not found! && pause
+errorcheck off
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0x0 (bd)/BT5-rw
+errorcheck on
+
+map $HOME$/BT5R2-GNOME-32.iso (0xff)
+map --hook
+partnew (%E2BDEV%,3) 0x0 $HOME$/BT5R2-GNOME-32.iso
+root (0xff)
+kernel /casper/vmlinuz file=/cdrom/preseed/custom.seed boot=casper persistent text splash noprompt vga=791-- 
+initrd /casper/initrd.gz

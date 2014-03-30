@@ -1,0 +1,19 @@
+# This only works if the ISO is on a FAT32 partition
+# This file should go in \_ISO\xxxxx\MNU folder together with the .iso file
+# If you have an NTFS E2B drive, create a 2nd primary FAT32 partition and place the ISO file in there (same folder path as the .mnu file on the 1st partition)
+# change all occurrences of rhel-server-5.7-i386-dvd to match your ISO filename
+# See http://rmprepusb.blogspot.co.uk/2014/02/adding-redhat-install-isos-to-easy2boot.html for more info
+
+# FOR FAT32 E2B USB DRIVE
+iftitle [if exist $HOME$/rhel-server-5.7-i386-dvd.iso] REDHAT Installer ISO \n When prompted, specify Hard Disk, /dev/sdb1\n and $HOME$ for the path
+set ISO=rhel-server-5.7-i386-dvd.iso
+/%grub%/qrun.g4b force.iso01 $HOME$/%ISO%
+boot
+
+# FOR NTFS E2B USB DRIVE - e.g.
+# PTN0 = NTFS   /_ISO/MAINMENU/MNU  contains this file
+# PTN1 = FAT32  /_ISO/MAINMENU/MNU  contains the iso file
+iftitle [if exist (hd0,1)$HOME$/rhel-server-5.7-i386-dvd.iso] REDHAT Installer ISO in 2nd Partition \n When prompted, specify Hard Disk, /dev/sdb2\n and $HOME$ for the path
+set ISO=rhel-server-5.7-i386-dvd.iso
+/%grub%/qrun.g4b force.iso01 (hd0,1)$HOME$/%ISO%
+boot

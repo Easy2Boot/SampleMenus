@@ -1,0 +1,76 @@
+# Easy2Boot - see www.RMPrepUSB.com Tutorial #72 for instructions
+
+# Copy Porteus-v1.1-i486.iso and Porteus-v1.1-i486.mnu to the /_ISO/XXX/MNU folder
+
+# Note: paths and filename as Case Sensitive in the Kernel line!
+# Note that the ext2 file /porteus.ext2 is all lowercase
+# You can easily create the /porteus.ext2 ext2 file using the RMPrepUSB Create Ext2 FS button (must be contiguous)
+# IMPORTANT: you MUST run WinContig (Ctrl+F2) before booting E2B.
+
+# MD5: cc3732501aeb03524b890a00b36936d6
+# SHA1: c91bb1f39fa6c6378336a9a8cb5ce0120442971e
+# CRC32: f91b784d
+
+
+iftitle [if exist $HOME$/Porteus-v1.1-i486.iso] Porteus Graphics mode Persistent (KDE)\nRun Porteus the best way we can. Try to autoconfigure graphics card and use the maximum allowed resolution.\nUse /porteus as changes filesystem.
+map $HOME$/porteus-v1.1-i486.iso (0xff) || map --mem $HOME$/porteus-v1.1-i486.iso (0xff)
+map --hook
+chainloader (0xff)
+root (0xff)
+kernel /boot/vmlinuz from_iso=$HOME$/Porteus-v1.1-i486.iso vga=791 changes=/porteus.ext2
+initrd /boot/initrd.xz
+
+iftitle [if exist $HOME$/Porteus-v1.1-i486.iso] Porteus Graphics mode Persistent (LXDE)\nLightweight LXDE to be launched as default desktop.\nUse /porteus as changes filesystem.
+map $HOME$/porteus-v1.1-i486.iso (0xff) || map --mem $HOME$/porteus-v1.1-i486.iso (0xff)
+map --hook
+chainloader (0xff)
+root (0xff)
+kernel /boot/vmlinuz from_iso=$HOME$/Porteus-v1.1-i486.iso lxde vga=791 changes=/porteus.ext2
+initrd /boot/initrd.xz
+
+iftitle [if exist $HOME$/Porteus-v1.1-i486.iso] Porteus as PXE Server Persistent\nRun Porteus and initialize a PXE server\nThis will allow you to boot on other computers over a network
+map $HOME$/porteus-v1.1-i486.iso (0xff) || map --mem $HOME$/porteus-v1.1-i486.iso (0xff)
+map --hook
+chainloader (0xff)
+root (0xff)
+kernel /boot/vmlinuz from_iso=$HOME$/Porteus-v1.1-i486.iso autoexec=pxe-boot vga=791 changes=/porteus.ext2
+initrd /boot/initrd.xz
+
+iftitle [if exist $HOME$/Porteus-v1.1-i486.iso] Porteus Text Mode Persistent\nRun Porteus and go to Command Prompt
+map $HOME$/porteus-v1.1-i486.iso (0xff) || map --mem $HOME$/porteus-v1.1-i486.iso (0xff)
+map --hook
+chainloader (0xff)
+root (0xff)
+kernel /boot/vmlinuz from_iso=$HOME$/Porteus-v1.1-i486.iso autoexec=telinit~3  vga=791 changes=/porteus.ext2
+initrd /boot/initrd.xz
+
+iftitle [if exist $HOME$/Porteus-v1.1-i486.iso] Porteus Graphics VESA Mode Persistent\nRun Porteus with KDE, but skip the graphics card autoconfig. \nThis forces 1024x768 resolution using a standard VESA driver
+map $HOME$/porteus-v1.1-i486.iso (0xff) || map --mem $HOME$/porteus-v1.1-i486.iso (0xff)
+map --hook
+chainloader (0xff)
+root (0xff)
+kernel /boot/vmlinuz from_iso=$HOME$/Porteus-v1.1-i486.iso autoexec=vesa-mode  vga=791 changes=/porteus.ext2
+initrd /boot/initrd.xz
+ 
+iftitle [if exist $HOME$/Porteus-v1.1-i486.iso] Porteus Fresh Mode\nUse this option to start a fresh system, changes are not read from or written to any device
+map $HOME$/porteus-v1.1-i486.iso (0xff) || map --mem $HOME$/porteus-v1.1-i486.iso (0xff)
+map --hook
+chainloader (0xff)
+root (0xff)
+kernel /boot/vmlinuz from_iso=$HOME$/Porteus-v1.1-i486.iso nomagic
+initrd /boot/initrd.xz
+  
+iftitle [if exist $HOME$/Porteus-v1.1-i486.iso] Porteus Copy to RAM Persistent\nUse this option to get a huge increase in speed.\nNeeds >768MB of memory
+map $HOME$/porteus-v1.1-i486.iso (0xff) || pause --wait=3 Please run WinContig on $HOME$/Porteus-v1.1-i486.iso && exit
+map --hook
+chainloader (0xff)
+root (0xff)
+kernel /boot/vmlinuz from_iso=$HOME$/Porteus-v1.1-i486.iso vga=791 copy2ram changes=/porteus.ext2
+initrd /boot/initrd.xz
+  
+  
+    
+
+
+
+

@@ -1,0 +1,13 @@
+# Follow www.RMPrepUSB.com Tutorial 44 to make \rescue\rescue.iso
+# Add \rescue\rescue.iso and empty Kaspersky Rescue Disk 10.0 folder to USB boot drive
+# Copy this .mnu file to \_ISO\MainMenu folder (or any subfolder below \_ISO)
+
+iftitle [if exist /rescue/rescue.iso] Kaspersky Rescue 10 \n "\\Kaspersky Rescue Disk 10.0" folder should be in root\n of USB drive to receive the download updates. \n Press ALT+TAB then A or 1 to accept licence.
+if exist CD echo WARNING: Cannot use partnew command! && pause
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+if not exist CD partnew (%E2BDEV%,3) 0 /rescue/rescue.iso
+map /rescue/rescue.iso (0xff)
+map --hook
+root (0xff)
+chainloader (0xff)
+

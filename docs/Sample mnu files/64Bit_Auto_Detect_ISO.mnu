@@ -1,0 +1,8 @@
+# Change the 1st, 2nd and 3rd line as required - line 4 may be deleted if no pause required
+
+title Run a 32-bit or 64-bit linux ISO \n Auto-Detect system type and run correct ISO
+set ISO=Ubuntu32.iso
+checkrange 2,3 is64bit && set ISO=Ubuntu64.iso
+pause WILL BOOT %ISO% - Press ENTER key to continue...
+/%grub%/qrun.g4b $HOME$/%ISO%
+boot

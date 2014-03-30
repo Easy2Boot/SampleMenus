@@ -1,0 +1,12 @@
+﻿# EXAMPLE .MNU FILE FOR 2ND PARTITION
+# You can add payload files under \_ISO on partition 2 and they will be included in the menu
+# EDIT lines 1 and 5 to match the name of your folder and partition
+# Add this file to the /_ISO/MAINMENU folder
+
+iftitle [ls (hd0,1)/_ISO/ > nul && if "%GFX%"==""] ^Ctrl+2 PARTITION 2 Payload Files Menu [Ctrl+2]\n Run payload files in Partition 2 \\_ISO folder
+set LBACKMENU=(bd)/%grub%/menu.lst
+if exist (hd0,0)/%grub%/menu.lst set myhd=hd0,1
+if exist (hd0,1)/%grub%/menu.lst set myhd=hd0,0
+(bd)/%grub%/QAUTO.g4b .automenu (%myhd%)/_ISO
+debug 0
+configfile (md)0x3000+0x50

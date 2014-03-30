@@ -1,0 +1,12 @@
+# Use RMPrepUSB to make an ext2 file named casper-rw in the root
+# copy the iso and this mnu file to a MNU subfolder on the Easy2Boot drive (e.g. \_ISO\MAINMENU\MNU)
+# for USA use locale=en_US.UTF-8 keyb=us
+# IMPORTANT: you MUST run WinContig (Ctrl+F2) before booting E2B.
+
+
+iftitle [if exist $HOME$/startos-5.0-20120808.iso] Boot StartOS (Windows Like OS) Persistent
+map $HOME$/startos-5.0-20120808.iso (0xff)
+map --hook
+root (0xff)
+kernel /casper/vmlinuz file=/cdrom/preseed/ubuntu.seed boot=casper locale=en_GB.UTF-8 keyb=uk persistent iso-scan/filename=$HOME$/startos-5.0-20120808.iso splash
+initrd /casper/initrd.img

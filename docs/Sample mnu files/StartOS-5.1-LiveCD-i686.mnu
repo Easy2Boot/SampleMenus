@@ -1,0 +1,35 @@
+# For persistence, create an ext2 file called casper-rw in the root of the boot drive using RMPrepUSB Create ext2 FS button
+# Then rename the file to start-rw  (do NOT create a file called start-rw - you MUST create a file called casper-rw and then rename it!)
+# (i.e. File Name=start-rw  Volume Name=casper-rw)
+# Place ISO in \_ISO\Mainmenu\MNU or \_ISO\LINUX\MNU (and this .mnu file too)
+# DOES NOT WORK UNDER VM!!!
+# IMPORTANT: you MUST run WinContig (Ctrl+F2) before booting E2B.
+
+
+
+# for USA use locale=en_US.UTF-8 keyb=us
+
+iftitle [if exist $HOME$/StartOS-5.1-LiveCD-i686.iso] Boot StartOS (Windows Like OS) Persistent
+set STISO=$HOME$/StartOS-5.1-LiveCD-i686.iso
+if exist CD echo WARNING: Cannot use partnew command! && pause && configfile (bd)/menu.lst
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+
+#enable parttype output
+debug 1
+# make empty table entry in 3rd position in ptn table
+parttype (%E2BDEV%,2) | set check=
+debug off
+set check=%check:~-5,4%
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0 0 0
+if not "%check%"=="0x00" echo WARNING: PTN TABLE 3 IS ALREADY IN USE! && pause
+debug 1
+partnew (%E2BDEV%,3) 0x0 %STISO%
+if not exist (bd)/start-rw echo WARNING: /start-rw persistence file not found! && pause
+errorcheck off
+if "%check%"=="0x00" partnew (%E2BDEV%,2) 0x0 (bd)/start-rw
+errorcheck on
+map %STISO% (0xff)
+map --hook
+root (0xff)
+kernel /casper/vmlinuz file=/cdrom/preseed/ubuntu.seed boot=casper locale=en_GB.UTF-8 keyb=uk persistent iso-scan/filename=%STISO% splash
+initrd /casper/initrd.img

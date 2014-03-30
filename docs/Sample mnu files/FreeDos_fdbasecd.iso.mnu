@@ -1,0 +1,21 @@
+:: Easy2Boot .mnu file for FreeDOS (Base) from www.http://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/
+:: www.http://mirror.aarnet.edu.au/pub/freedos/files/distributions
+:: See Tutorial #72 at www.rmprepusb.com for details
+:: Check MD5 value after download using RMPrepUSB + CTRL.C
+:: Author - Larry Kraemer
+:: fdbasecd.iso  (/_ISO/MAINMENU/MNU/fdbasecd.iso)
+:: MD5:  c9bfcf2d08dbe8bdb1fe95fb339e0b2b   
+:: SHA1:    65073572caf88021297cf862af4452d1da674930
+:: CRC32B:  8be792ad
+:: SHA256:  b223f55ea3819cdfc1afc869d5fbd7a9ed39a149865024e599b1c26fe2aeb720
+:: INSTRUCTIONS
+:: 1. Download the fdbasecd.iso file, verify the MD5SUM...
+:: 2. Copy this .mnu file and the fdbasecd.iso file to /_ISO/MAINMENU/MNU folder (or any \_ISO\xxx\MNU folder)
+:: 3. Ensure the file is contiguous by running WinContig (RMPrepUSB Ctrl+F2)
+
+iftitle [if exist $HOME$/fdbasecd.iso] Boot FreeDOS 1.0 from an ISO Image
+map --mem $HOME$/fdbasecd.iso (0xff) || map $HOME$/fdbasecd.iso (0xff)  
+map --hook
+chainloader (0xff)
+
+

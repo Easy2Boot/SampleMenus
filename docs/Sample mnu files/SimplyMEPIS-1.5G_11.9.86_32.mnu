@@ -1,0 +1,22 @@
+# add the ISO and this file to \_ISO\MAINMENU\MNU or \_ISO\LINUX\MNU folder
+
+title MEPIS32_12.0
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+
+partnew (%E2BDEV%,3) 0x0 $HOME$/SimplyMEPIS-1.5G_11.9.86_32.iso
+map $HOME$/SimplyMEPIS-1.5G_11.9.86_32.iso (0xff)
+map --hook
+root (0xff)
+kernel /boot/vmlinuz quiet splash fromhd
+initrd /boot/initrd
+
+
+title MEPIS32_12.0 (Safe Mode)
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+
+partnew (%E2BDEV%,3) 0x0 $HOME$/SimplyMEPIS-1.5G_11.9.86_32.iso
+map $HOME$/SimplyMEPIS-1.5G_11.9.86_32.iso (0xff)
+map --hook
+root (0xff)
+kernel /boot/vmlinuz fromhd radeon.modeset=0 nouveau.modeset=0 i915.modeset=0 xmodule=vesa
+initrd /boot/initrd 

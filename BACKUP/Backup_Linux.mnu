@@ -1,0 +1,14 @@
+# EXAMPLE .MNU FILE (place in \_ISO\MAINMENU folder to list in the Main Menu)
+# You can add payload and .mnu files under \_ISO\BACKUP\TOPMENU
+# EDIT the first two lines to match the name of your folder
+
+iftitle [ls /_ISO/BACKUP_LINUX/ > nul] BACKUP Linux Menu \n My Linux Backup menu
+set MFOLDER=/_ISO/BACKUP_LINUX
+#MFOLDER must be the full folder path starting with /
+set HDG=\x20                     Linux Backup utilities                   \x20
+#HDG is the top heading for the menu
+(bd)/%grub%/SubMenu.g4b
+boot
+
+
+

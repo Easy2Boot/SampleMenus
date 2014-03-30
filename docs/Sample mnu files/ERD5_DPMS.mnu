@@ -1,0 +1,10 @@
+# Use for MSDaRT 5 XP-based ISOs (use DPMS2 version of Easy2Boot for AHCI drivers)
+# Make new empty folder, e.g. \_ISO\MAINMENU\MSDART
+# Copy this .mnu file and the single ERD or PE ISO file to the empty folder (one .iso file per folder)
+
+title XP MSDart ERD (DPMS)\n If DPMS is not installed\n Remember to select an AHCI driver\n AND the FiraDisk driver (using F6).
+set MFOLDER=$HOME$
+pause --wait=3 Press ENTER 3 times to boot...
+/%grub%/%LANG%/XPStep1.g4b
+boot
+

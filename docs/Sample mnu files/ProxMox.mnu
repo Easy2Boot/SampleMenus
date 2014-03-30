@@ -1,0 +1,4 @@
+title ProxMox Installer ISO \n Use fdisk -l to find 4th partition\n mount /dev/sdb4 /mnt\n chroot /mnt sbin/unconfigured.sh
+set ISO=proxmox-ve_3.2-1933730b-2.iso
+/%grub%/qrun.g4b $HOME$/%ISO%
+boot

@@ -1,0 +1,8 @@
+title ^Ctrl+F8 Back to Utilities Menu [Ctrl+F8]\n Go back to the Utilities Menu
+set MFOLDER=/_ISO/UTILITIES
+#MFOLDER must be the full folder path starting with /
+set HDG=\x20                    Utilities Menu                          \x20
+#HDG is the top heading for the menu
+(bd)/%grub%/SubMenu.g4b
+boot
+

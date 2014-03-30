@@ -1,0 +1,12 @@
+:: Easy2Boot .mnu file for FreeDos minimal 2.88MB Boot floppy
+:: See Tutorial #96 at www.rmprepusb.com for details
+:: INSTRUCTIONS
+:: 1. Download FreeDOS IMA file (compress using Gzip to make .gz file)
+:: 2. Copy this .mnu file plus .ima.gz to \_ISO\DOS\MNU folder
+
+iftitle [if exist %MFOLDER%/MNU/Freedos288.ima.gz] Boot FreeDos from a floppy image\n Boot from a floppy image
+map %MFOLDER%/MNU/Freedos288.ima (fd0) || map --mem %MFOLDER%/MNU/Freedos288.ima.gz (fd0)
+map --hook
+root (fd0)
+chainloader /kernel.sys || chainloader +1
+

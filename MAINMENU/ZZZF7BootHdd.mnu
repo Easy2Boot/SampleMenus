@@ -1,0 +1,12 @@
+iftitle [if "%GFX%"=="" if not exist NOF7HD] ^F7 Boot to first HDD [F7]\n Boot to the first internal Hard Disk (HDD0).
+if not exist CD map (hd0) (hd1) && map (hd1) (hd0)
+if not exist CD map --hook
+chainloader (hd0)+1 
+rootnoverify (hd0)
+
+iftitle [if not "%GFX%"=="" if not exist NOF7HD] Boot to first HDD\n Boot to the first internal Hard Disk (HDD0).
+if not exist CD map (hd0) (hd1) && map (hd1) (hd0)
+if not exist CD map --hook
+chainloader (hd0)+1 
+rootnoverify (hd0)
+

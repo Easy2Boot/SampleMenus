@@ -1,0 +1,13 @@
+# Copy the ISO and this file to the /_ISO/XXX/MNU folder
+# Similar to using .isofira01 file extension
+
+iftitle [if exist $HOME$/ERD5X86.iso] ERD Commander 5 for XP\n Boot to XP using FiraDisk
+map --mem $HOME$/ERD5X86.iso (0xff) || map $HOME$/ERD5X86.iso (0xff)
+if not exist CD map (hd0) (hd1)
+if not exist CD map (hd1) (hd0)
+map --mem /%grub%/firadisk.gz (fd0)
+map --mem /%grub%/firadisk.gz (fd0)
+map --hook
+root (0xff)
+chainloader (0xff)/I386/setupldr.bin || chainloader (0xff)
+

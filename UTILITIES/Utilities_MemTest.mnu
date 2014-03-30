@@ -1,0 +1,13 @@
+# EXAMPLE  SUB-MENU .MNU FILE (place in \_ISO\UTILTIES folder)
+# You can add payload and .mnu files under \_ISO\UTILITIES_MEMTEST
+# EDIT the first few lines to match the name of your folder
+
+iftitle [ls (bd)/_ISO/UTILITIES_MEMTEST/ > nul] MEMORY TEST Menu \n System Memory Test utilities
+#MFOLDER must be the full folder path starting with /
+set MFOLDER=/_ISO/UTILITIES_MEMTEST
+#HDG is the top heading for the menu
+set HDG=\x20               Utilities - Memory Tests Menu                   \x20
+
+(bd)/%grub%/SubMenu.g4b
+boot
+

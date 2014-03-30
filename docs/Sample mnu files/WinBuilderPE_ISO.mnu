@@ -1,0 +1,15 @@
+# Copy WinBuilder .iso file to root of E2B drive, e.g. F:\ - DO NOT RENAME IT!
+# Copy this .mnu file to any E2B menu folder - e.g. \_ISO\MAINMENU\MNU
+# (optional) If WinFE ISO, at Desktop, select E2B drive in WinFE Write Protect Tool
+#    - click Read\Write or ReadOnly - click Mount - Click Close - this runs Pstart correctly
+# if any problems - check X:\Windows\System32\MountPEmedia.ini file for name of ISO in [IsoInfo] section.
+
+title WinBuilder ISO \n Use for most WinBuilder PE ISOs
+set ISO=Win7PE_x86.iso
+/%grub%/qrun.g4b force.iso01 /%ISO%
+boot
+
+title WinBuilder ISO + Load ISO as new drive letter \n Use for WinBuilder PE ISOs\n which don't auto-load the ISO as Y:
+set ISO=Win7PE_x86.iso
+/%grub%/qrun.g4b force.isope01 /%ISO%
+boot

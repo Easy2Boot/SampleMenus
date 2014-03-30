@@ -1,0 +1,19 @@
+# Use Grub4dos 0.4.6 built-in USB drive - useful for BIOSes which have buggy USB code!
+
+iftitle [cat --locate="GRUB4DOS 0.4.6" (md)0x200+0x100 ;; if %@retval%<=0 && if exist /%grub%/grldr_046] Switch to Grub4dos v0.4.6 (for USB Driver)\n Reboot using Grub4Dos v0.4.6\n Then install USB driver\n Use if buggy BIOS.
+pause --wait=2 Loading Grub4Dos 0.4.6...
+chainloader /%grub%/grldr_046
+
+iftitle [cat --locate="GRUB4DOS 0.4.6" (md)0x200+0x100 && if "%GRUB_DUN%"==""] Install Grub4DOS USB Driver \n Replaces BIOS USB code.\n Use if buggy BIOS.
+debug on
+usb --init
+echo
+debug off
+pause --wait=3
+# don't do usb --init again in menu.lst
+set GRUB_USB=
+set GRUB_DUN=1
+configfile (md)0xa000+0x50 || configfile /menu.lst
+
+
+

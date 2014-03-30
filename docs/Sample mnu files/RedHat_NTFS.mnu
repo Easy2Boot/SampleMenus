@@ -1,0 +1,36 @@
+﻿# This can be used if your E2B drive is NTFS (or FAT32)
+# Format a spare USB Flash/HDD as FAT32, 1 partition, SIZE=(size of Redhat ISO) + 100MB (e.g. if ISO is 3149MB, format USB flash drive as 3250)
+# Copy redhat ISO onto the root of the FAT32 USB drive
+# Use RMPrepUSB - Drive->File, Filename=REDHATPTN.IMG, start=P1, size=P1, filestart=0 to make an image of the USB drive partition
+# Copy REDHATPTN.IMG and this .mnu file to \_ISO\MAINMENU\MNU folder (or any \_ISO\xxxxxx\MNU folder) on E2B NTFS drive
+# change rhel-server-5.7-i386-dvd to match your ISO filename
+# See http://rmprepusb.blogspot.co.uk/2014/02/adding-redhat-install-isos-to-easy2boot.html for more info
+
+title REDHAT FOR NTFS\n To install, choose Hard Drive, sdb4 and /
+set IMG=REDHATPTN.IMG
+set ISO=/rhel-server-5.7-i386-dvd.iso
+if "%E2BDEV%"=="" set E2BDEV=hd0 && pause E2BDEV forced to hd0!
+if exist CD echo WARNING: Cannot use partnew command! && pause && configfile (bd)/menu.lst
+debug on
+parttype (%E2BDEV%,3) | set check=
+debug off
+set check=%check:~-5,4%
+if "%check%"=="0x00" partnew (%E2BDEV%,3) 0 0 0
+if not "%check%"=="0x00" echo WARNING: PARTITION TABLE 4 IS ALREADY IN USE! (%E2BDEV%,3)=%check% && pause && configfile (bd)/menu.lst
+debug 1
+if "%check%"=="0x00" partnew (%E2BDEV%,3) 0x0 $HOME$/%IMG% || pause ERROR: $HOME$/%IMG% NOT CONTIGUOUS? && configfile (bd)/menu.lst
+map (hd0) (hd1)
+map (hd1) (hd0)
+map --hook
+# set root as new FAT32 partition on E2B drive
+root (hd1,3)
+map %ISO% (0xff)
+map --hook
+root (0xff)
+chainloader (0xff)
+# replace FAT32 partition number C or B with 0 as linux doesn't need it (E2B USB drive is hd1 now)
+cat --locate=\x0c --number=1 --length=1 --skip=0x1f2 --replace=\x00 (hd1)+1
+cat --locate=\x0b --number=1 --length=1 --skip=0x1f2 --replace=\x00 (hd1)+1
+
+
+

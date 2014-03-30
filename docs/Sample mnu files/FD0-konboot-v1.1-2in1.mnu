@@ -1,0 +1,20 @@
+## INSTRUCTIONS
+## ============
+## Download KonBoot floppy disk image from http://www.piotrbania.com/all/kon-boot/ (password kon-boot)
+## MD5 a53fb422cc4f900b25bbe7bb86265685
+## Make a folder /_ISO/xxxx/MNU on your Easy2Boot USB drive - e.g. \_ISO\UTILITIES\MNU
+## Copy the FD0-konboot-v1.1-2in1.img file and the FD0-konboot-v1.1-2in1.mnu file to the /_ISO/XXX/MNU folder
+
+## See Tutorial #56 at www.rmprepusb.com for details on KonBoot
+## See Tutorial #72 at www.rmprepusb.com for details on how to make an Easy2Boot multiboot USB drive
+
+iftitle [if exist $HOME$/FD0-konboot-v1.1-2in1.img] KONBOOT 1.1\nPress Enter once Kon-Boot starts to run then allow it to reboot your system to Windows
+errorcheck off 
+map --mem $HOME$/FD0-konboot-v1.1-2in1.img (fd0)
+# If current grub4dos root drive (UDF)(stored at 0x8280 in memory) is 0x80 (=hd0), remap (hd0) to (hd1), else do nothing
+checkrange 0x80 read 0x8280 && map (hd0) (hd1)
+# If current grub4dos root drive (UDF) (stored at 0x8280 in memory) is 0x80 (=hd0), remap (hd1) (=internal hard drive) to (hd0), else do nothing
+checkrange 0x80 read 0x8280 && map (hd1) (hd0)
+map --hook
+chainloader (fd0)+1
+rootnoverify (fd0)

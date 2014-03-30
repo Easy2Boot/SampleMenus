@@ -1,0 +1,11 @@
+﻿iftitle [ls (bd)/_ISO/AUTO/ > (md)0x9F00+1 && checkrange 1:-1 read 0x13E0000 > nul && if not "%GFX%"==""] DIRECT BOOT Menu GFX   (\\_ISO\\AUTO)
+set LBACKMENU=(bd)/%grub%/menu.lst
+(bd)/%grub%/QAUTO.g4b .automenu /_ISO/AUTO
+debug 0
+configfile (md)0x3000+0x50
+
+iftitle [ls (bd)/_ISO/AUTO/ > (md)0x9F00+1 && checkrange 1:-1 read 0x13E0000 > nul && if "%GFX%"==""] ^D %HDRAUTO%\n %HDRAUTOH%
+set LBACKMENU=(bd)/%grub%/menu.lst
+(bd)/%grub%/QAUTO.g4b .automenu /_ISO/AUTO
+debug 0
+configfile (md)0x3000+0x50

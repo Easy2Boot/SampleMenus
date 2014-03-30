@@ -1,0 +1,43 @@
+# This .mnu file allows you to have multiple WinBuilder ISOs on one E2B drive - You cna use the .isoWB file extension instead though!
+
+# Place WB ISO in \_ISO\MAINMENU\WB1 folder (or \_ISO\WINPE\WB1) - any folder name can be used instead of WB1
+# Copy this .mnu file to the same folder as the ISO and change the text inside to your ISO name (two lines)
+# Copy the WinBuilder .INI file to the root of the USB drive - e.g. \Win7PESE.ini
+#   - add extra lines of spaces if needed to make file 1K bytes or more
+# Make a .WB file of same filename as the ISO - e.g. WinSS_x86.WB
+# Contents of .WB  (case sensitive!):
+#      !BAT
+#      set IniName=Win7PESE.ini
+# 
+# Make sure that the name of the INI file in the root of the E2B drive matches what is in the .WB file
+# If you see a yellow trangle on the WB Desktop - you have done something wrong!
+
+# Typical File arrangement
+#  \_ISO\MAINMENU\WBSS\WinSS_x86.iso
+#  \_ISO\MAINMENU\WBSS\WinSS_x86.mnu
+#  \_ISO\MAINMENU\WBSS\WinSS_x86.WB
+#  \Win7PESE.ini    <--- DO NOT CHANGE THIS FILENAME
+
+iftitle [if exist $HOME$/WinSS_x86.ISO] WinBuilder WinPE ISO\n Ensure .ini is in root and $HOME$ 
+# Line above must contain WB ISO filename+file extension
+set ISOFN=WinSS_x86
+# Line above must contain WB ISO filename (no file extension)
+if not exist $HOME$/%ISOFN%.WB pause ERROR: No %ISOFN%.WB in $HOME$ && set ERR=1
+call $HOME$/%ISOFN%.WB
+# We now have INI name
+if not exist IniName pause ERROR: No IniName set in $HOME$/%ISOFN%.WB  && set ERR=1
+if not exist /%IniName% pause ERROR: No  /%IniName%  && set ERR=1
+# fill (rd) with 0's , 0x82d0 is rd-base mem address, Fn24 is memset - fill memory  <addr> <string> <size>
+map (md)0x300+200 (rd) > nul ;; read 0x82d0  > nul ;; call Fn.24  %@retval% 0x20  102400  > nul  
+dd if=(rd)+1 of=()/%IniName%
+#[IsoInfo]
+#IsoName=/_ISO/MAINMENU/MNU/WinSS_x86.ISO
+echo -e Writing:\n[IsoInfo]\nIsoName=$HOME$/%ISOFN%.ISO\nto /%IniName%
+echo [IsoInfo] > /%IniName%
+echo -e IsoName=$HOME$/%ISOFN%.ISO >> /%IniName%
+cat --locate=%ISOFN%.ISO /%IniName% > nul || pause ERROR: /%IniName% may be too small (should be 1K)  && set ERR=1
+if "%ERR%"=="1" set MFOLDER=/_ISO/MAINMENU && configfile (md)0xa000+0x50
+#pause
+
+/%grub%/qrun.g4b force.iso01 $HOME$/%ISOFN%.ISO
+boot

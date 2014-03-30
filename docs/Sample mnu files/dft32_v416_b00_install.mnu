@@ -1,0 +1,18 @@
+:: Easy2Boot .mnu file for Hitachi Drive Fitness Test from http://www.hitachigst.com/support/downloads/#DFT
+:: See Tutorial #72 at www.rmprepusb.com for details
+:: dft32_v416_b00_install.IMG
+:: MD5: 11fae6b4b6ee81e997b5fa130ad60825
+:: SHA1: 78e10fab19d418f401885e33021dea0cb401d948
+:: CRC32: a55496a1
+:: INSTRUCTIONS
+:: 1. download the dft32_v416_b00_install.IMG 1.44MB floppy image 
+:: 2. Copy this .mnu file and the downloaded dft32_v416_b00_install.IMG file to /_ISO/XXX/Utility folder
+:: 3. Ensure the file is contiguous by running WinContig (RMPrepUSB Ctrl+F2)
+
+iftitle [if exist $HOME$/dft32_v416_b00_install.IMG] Hitachi Drive Fitness Test tool
+map --mem $HOME$/dft32_v416_b00_install.IMG (fd0)
+map --hook
+root (fd0)
+map --floppies=1
+root (fd0)
+chainloader +1
