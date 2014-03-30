@@ -1,0 +1,19 @@
+
+iftitle [if exist (bd)/_ISO/Windows/XP/WINPE_INST.TAG if %CXP%>=1]  \n
+root () > nul && configfile (bd)/%grub%/%LANG%/MenuWinInstall.lst
+
+iftitle [if exist (bd)/_ISO/Windows/XP/WINPE_INST.TAG && if %CXP%>=1 && if "%GFX%"==""] ^X Install XP using WinPE ISO       [X]\n Install Windows XP to your hard disk using WinPE.\n You will also need a WinPE ISO or Windows Install ISO file\n (WinPE v2/3/4 or Vista Install ISO or later).
+set MYPATH=/_ISO/Windows/XP
+set WMYPATH=\\_ISO\\Windows\\XP
+debug 1
+clear
+/%grub%/%LANG%/XPWINNT.g4b
+boot
+
+iftitle [if exist (bd)/_ISO/Windows/XP/WINPE_INST.TAG && if %CXP%>=1 && if not "%GFX%"==""] Install XP using WinPE\n Install Windows XP to your hard disk using WinPE.\n You will also need a WinPE ISO or Windows Install ISO file\n (WinPE v2/3/4 or Vista Install ISO or later).
+set MYPATH=/_ISO/Windows/XP
+set WMYPATH=\\_ISO\\Windows\\XP
+debug 1
+clear
+/%grub%/%LANG%/XPWINNT.g4b
+boot

@@ -1,0 +1,34 @@
+## XP ISOs
+
+iftitle [if %CXP%>=1]  \n
+root () > nul && configfile (bd)/%grub%/%LANG%/MenuWinInstall.lst
+
+iftitle [if %CXP%>=1 && if "%GFX%"==""] ^Alt+1 Install XP - Step 1 [Alt+1]\n Remember to select an AHCI driver (if required) \n AND FiraDisk AND WinVBlock drivers (using F6)!\n You must reboot to Easy2Boot again and run STEP 2 afterwards.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep1.g4b
+boot
+
+iftitle [if %CXP%>=1 && if not "%GFX%"==""] Install XP - Step 1\n Remember to select an AHCI driver (if required) \n AND FiraDisk AND WinVBlock drivers (using F6)!\n You must reboot to Easy2Boot again and run STEP 2 afterwards.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep1.g4b
+boot
+
+iftitle [if %CXP%>=1 && if "%GFX%"==""] ^Alt+2 Install XP - Step 2 [Alt+2] (512MB+ systems)\n 2nd phase of setup (most reliable).\n This will complete the install and reboot from the hard disk.\n It requires at least 512MB of RAM to hold the ISO file.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep2.g4b
+boot
+
+iftitle [if %CXP%>=1 && if not "%GFX%"==""] Install XP - Step 2 (512MB+ systems)\n 2nd phase of setup (most reliable).\n This will complete the install and reboot from the hard disk.\n It requires at least 512MB of RAM to hold the ISO file.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep2.g4b
+boot
+
+iftitle [if %CXP%>=1 && if "%GFX%"==""] ^Alt+3 Install XP - Step 2 [Alt+3] (Low RAM systems)\n Faster - use this if not enough system memory (<512MB). \n Direct ISO map for WinVBlock. Does not work on all\n systems, e.g. some Atom CPU based systems.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep2LowRam.g4b
+boot
+
+iftitle [if %CXP%>=1 && if not "%GFX%"==""] Install XP - Step 2 (Low RAM systems)\n Faster - use this if not enough system memory (<512MB). \n Direct ISO map for WinVBlock. Does not work on all\n systems, e.g. some Atom CPU based systems.
+set MFOLDER=/_ISO/WINDOWS/XP
+/%grub%/%LANG%/XPStep2LowRam.g4b
+boot

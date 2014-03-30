@@ -1,0 +1,18 @@
+# How to add specific Windows Install ISOs to the Main E2B menu
+# Edit the examples to match your ISOs and add more entries if required - copy to \_ISO\MAINMENU folder
+
+# Use this for Vista/SVR2K8R2/Win7 ISOs
+iftitle [if exist /_ISO/WINDOWS/Win7/Win7_32_SP1.iso] Install Win7 SP1 32-bit \n Install from the ISO
+set MFOLDER=/_ISO/WINDOWS/Win7
+set ISO=Win7_32_SP1.iso
+/%grub%/%LANG%/RunVista.g4b  Win7
+boot
+
+# use this for Win8/8.1/SVR2012 ISOs
+iftitle [if exist /_ISO/WINDOWS/Win8/Win8.1_32.iso] Install Win8.1 32-bit \n Install from the ISO
+set MFOLDER=/_ISO/WINDOWS/Win8
+set ISO=Win8.1_32.iso
+/%grub%/%LANG%/RunWin8.g4b  Win8
+boot
+
+# Add more here...

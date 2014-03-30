@@ -12,4 +12,8 @@ Additional tutorials can be found at http://www.rmprepusb.com
 
 This repository maintains the basic file system structure used by Easy2Boot.
 
-All contributions should be added to "docs/Sample mnu files".  All other files are for reference only.
+MNU contributions should be added to "docs/Sample mnu files".
+
+Template contributions should be added to "docs/Sample E2B templates".
+
+All other files are for reference only.
